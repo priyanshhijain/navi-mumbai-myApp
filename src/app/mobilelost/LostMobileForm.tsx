@@ -185,7 +185,7 @@ const LostForm: React.FC = () => {
             </div>
 
 
-            <div className="grid grid-cols-1 gap-y-6">
+            <div className="grid grid-cols-1 gap-y-6 mt-4">
                 {/* Color Input */}
                 <div className="relative">
                     <label

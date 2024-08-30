@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faLocationDot, faCar, faCheckCircle, faPaperclip, faFileContract, faBook, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faLocationDot, faCar, faCheckCircle, faPaperclip, faFileContract, faBook, faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useForm, Controller } from 'react-hook-form'
 import Dropdown from '@/components/Dropdown';
 type Inputs = {
@@ -25,18 +25,26 @@ type Inputs = {
 };
 
 const ResidentialForm = () => {
-    const { register, handleSubmit, control, formState: { errors }, watch } = useForm<Inputs>();
-    const [selectedBox, setSelectedBox] = useState(null);
+    const { register, handleSubmit, control, formState: { errors }, watch, setValue } = useForm<Inputs>();
+    const [selectedBox, setSelectedBox] = useState<string | null>(null);
+    const [ownerPhotos, setOwnerPhotos] = useState<File[]>([]);
+    const [tenantPhotos, setTenantPhotos] = useState<File[]>([]);
+    const [roommatePhotos, setRoommatePhotos] = useState<File[]>([]);
 
-    const handleBoxClick = (box: any) => {
+
+    const handleBoxClick = (box: string) => {
         setSelectedBox(box);
     };
 
-    const onSubmit = (data: any) => {
-        alert("Form is Submitted")
-        console.log('Form data:', data);
-        setSelectedBox(null); // Reset selected box state
+    const onSubmit = (data: Inputs) => {
+        console.log("Form Data:", data);
+        // fileInputIds.forEach((id, index) => {
+        //     if (data[id as keyof Inputs]) {
+        //         console.log(`File selected for ${fileLabels[index]}:`, data[id as keyof Inputs]);
+        //     }
+        // });
     };
+
     const fileInputIds = [
         "upload-contract",
         "latest-agreement-bills",
@@ -51,7 +59,7 @@ const ResidentialForm = () => {
         "owner-signature",
         "tenant-signature",
         "owner-tenant-photos",
-        "roommate-photos",
+        // "roommate-photos",
     ];
 
     const fileLabels = [
@@ -68,8 +76,30 @@ const ResidentialForm = () => {
         "Signature of owner",
         "Signature of tenant",
         "Photographs of owner and tenant",
-        "Photographs of roommate",
+        // "Photographs of roommate",
     ];
+
+    // Watch file inputs using react-hook-form's `watch` function
+    const watchFiles = fileInputIds.map((id) => watch(id as keyof Inputs));
+    // Handle file input change
+    const [fileArray, setFileArray] = useState<File[]>([]);
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newFiles = event.target.files;
+        if (newFiles) {
+            // Convert FileList to an array
+            const newFileArray = Array.from(newFiles);
+
+            // Combine the new files with the existing files
+            setFileArray((prevFiles) => [...prevFiles, ...newFileArray]);
+        }
+    };
+
+    const removeFile = (index) => {
+        const updatedArray = [...fileArray]; // Create a copy of the array
+        updatedArray.splice(index, 1); // Remove the file at the specified index
+        setFileArray(updatedArray);
+      };
+
     return (
         <div>
             <div className="mt-8">
@@ -327,26 +357,101 @@ const ResidentialForm = () => {
                                 </div>
                                 <hr className="border-gray-500 dark:border-gray-400 mt-2" />
                             </div>
-                            {fileInputIds.map((id, index) => (
-                                <div key={id} className="flex items-center py-3 px-3 bg-white text-gray-700 rounded-lg shadow-md">
-                                    <input type="file" id={id} className="hidden" />
-                                    <FontAwesomeIcon
-                                        icon={faFileContract}
-                                        className="h-4 w-8 mr-2 cursor-pointer"
-                                        onClick={() => document.getElementById(id)?.click()}
-                                    />
-                                    {index >= fileInputIds.length - 4 && (
+                            {fileInputIds.map((id, index) => {
+                                const fileName = watchFiles[index]?.[0]?.name; // Get the file name if a file is selected
+
+                                return (
+                                    <div
+                                        key={id}
+                                        className="flex items-center py-3 px-3 bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-lg shadow-md"
+                                    >
+                                        <input
+                                            type="file"
+                                            id={id}
+                                            className="hidden"
+                                            {...register(id as keyof Inputs)}
+                                            multiple
+                                        />
+
                                         <FontAwesomeIcon
-                                            icon={faCamera}
+                                            icon={faFileContract}
                                             className="h-4 w-8 mr-2 cursor-pointer"
                                             onClick={() => document.getElementById(id)?.click()}
                                         />
-                                    )}
-                                    <span className="ml-2">{fileLabels[index]}</span>
-                                </div>
-                            ))}
+
+                                        {index >= fileInputIds.length - 4 && (
+                                            <FontAwesomeIcon
+                                                icon={faCamera}
+                                                className="h-4 w-8 mr-2 cursor-pointer"
+                                                onClick={() => document.getElementById(id)?.click()}
+                                            />
+                                        )}
+
+                                        <span className="ml-2">
+                                            {fileName || fileLabels[index]}
+                                        </span>
+
+                                        {/* Conditionally render the cross button if a file is selected */}
+
+                                        {fileName && (
+                                            <FontAwesomeIcon
+                                                icon={faTimes} // Cross icon
+                                                className="ml-2 h-4 w-4 text-red-500 cursor-pointer"
+                                                onClick={() => {
+                                                    // Clear the selected file
+                                                    const element = document.getElementById(id);
+                                                    if (element) {
+                                                        (element as HTMLInputElement).value = '';
+                                                    }
+
+                                                    // Update form state and UI
+                                                    // Reset the file in watchFiles (assuming you use `setValue` for form state management)
+                                                    setValue(id as keyof Inputs, null);
+                                                    // Optionally, if you need to manage state separately
+                                                    // setWatchFiles(prev => prev.filter((_, i) => i !== index));
+                                                }}
+                                            />
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
+
                     </div>
+                    <div className="flex items-center">
+                        <label for="fileInput">
+                            <FontAwesomeIcon
+                                icon={faCamera}
+                                className="h-4 w-8 mr-2 cursor-pointer"
+                              
+                            />
+                            Photograph of roommate
+                            <input
+                                type="file"
+                                id="fileInput"
+                                multiple
+                                {...register('files')}
+                                onChange={handleFileChange}
+                                hidden
+                            />
+                        </label>
+                    </div>
+                    {fileArray.length > 0 && (
+        <div className="mt-4">
+          <ul className="list-disc ml-6 list-none">
+            {fileArray.map((file, index) => (
+              <li key={index} className="mt-2">
+                {file.name}
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  className="cursor-pointer ml-2 text-red-500 hover:text-red-700"
+                  onClick={() => removeFile(index)}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
                     <div className="flex items-center justify-center mt-8 mb-32">
                         <button
                             type="submit"

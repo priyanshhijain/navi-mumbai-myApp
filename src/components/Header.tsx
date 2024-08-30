@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { faUser, faHouse, faShuffle, faBars } from '@fortawesome/free-solid-svg-icons';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { BellIcon, XMarkIcon, Bars3Icon } from '@heroicons/react/24/outline';
@@ -24,15 +25,15 @@ const Header: React.FC = () => {
   };
 
   return (
-    <Disclosure as="header" className="w-full bg-blue-950 shadow-md py-3">
+    <Disclosure as="header" className="w-full bg-gray-800 shadow-md py-3">
       <div className="mx-auto max-w-8xl px-4 sm:px-6">
         <div className="flex h-16 justify-between items-center">
           <div className="flex items-center">
             <img src="/logo.jpeg" alt="Police Logo" className="w-12 h-12" />
             {isLogin ? (
               <div>
-                <h1 className="font-medium text-white text-sm sm:text-base">Welcome</h1>
-                <h2 className="font-medium text-white text-sm sm:text-base">Hello, {username}</h2>
+                <h1 className="font-medium text-white text-sm sm:text-base pl-2">Welcome</h1>
+                <h2 className="font-medium text-white text-sm sm:text-base pl-2">Hello, {username}</h2>
               </div>
             ) : (
               <div>
@@ -41,6 +42,7 @@ const Header: React.FC = () => {
               </div>
             )}
           </div>
+         
           <div className="hidden sm:flex items-center space-x-8">
             <a href="/dashboard" className="text-base font-medium text-white hover:text-gray-300">
               Dashboard
@@ -52,8 +54,25 @@ const Header: React.FC = () => {
               Profile
             </a>
             <a href="/profile" className="text-base font-medium text-white hover:text-gray-300">
-             Contact Us
+              Contact Us
             </a>
+          </div>
+          <div className="w-full max-w-lg lg:max-w-xs hidden sm:block">
+            <label htmlFor="search" className="sr-only">
+              Search
+            </label>
+            <div className="relative">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <MagnifyingGlassIcon aria-hidden="true" className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                id="search"
+                name="search"
+                type="search"
+                placeholder="Search"
+                className="block w-full rounded-md border-0 bg-gray-700 py-1.5 pl-10 pr-3 text-gray-300 placeholder:text-gray-400 focus:bg-white focus:text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
+              />
+            </div>
           </div>
           <div className="hidden sm:flex sm:items-center">
             <button
@@ -93,6 +112,7 @@ const Header: React.FC = () => {
               </MenuItems>
             </Menu>
           </div>
+
           <div className="-mr-2 flex items-center sm:hidden">
             <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-600 hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
               <span className="sr-only">Open main menu</span>
@@ -101,7 +121,9 @@ const Header: React.FC = () => {
             </Disclosure.Button>
           </div>
         </div>
+
       </div>
+
 
       <Disclosure.Panel className="sm:hidden">
         <div className="space-y-1 pb-3 pt-2">
@@ -136,7 +158,7 @@ const Header: React.FC = () => {
                 className="h-10 w-10 rounded-full"
               />
             </div>
-          
+
             <button
               type="button"
               className="relative ml-auto flex-shrink-0 rounded-full bg-gray-700 p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -162,7 +184,9 @@ const Header: React.FC = () => {
             </Disclosure.Button>
           </div>
         </div>
+
       </Disclosure.Panel>
+
     </Disclosure>
 
   );
