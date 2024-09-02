@@ -25,7 +25,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <Disclosure as="header" className="w-full bg-gray-800 shadow-md py-3">
+    <Disclosure as="header" className="w-full bg-blue-950 shadow-md py-3">
       <div className="mx-auto max-w-8xl px-4 sm:px-6">
         <div className="flex h-16 justify-between items-center">
           <div className="flex items-center">

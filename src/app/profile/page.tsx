@@ -1,214 +1,172 @@
 "use client";
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faCamera, faLocationDot, faPen } from '@fortawesome/free-solid-svg-icons';
-import MobileMenu from '@/components/MobileMenu';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import Header2 from '@/components/Header2';
 
-const ProfileComponent = () => {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
-
-    const onSubmit = (data: any) => {
-        alert('Changes saved!');
-        console.log(data);
-        reset(); // Reset the form fields
-    };
-    const getErrorMessage = (error: any) => {
-        if (error) {
-            return error.message ? error.message.toString() : 'This field is required';
-        }
-        return null;
-    };
-    return (
-        <>
-        <Header2 />
-            <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 mt-4">
-                <div className="max-w-lg mx-auto bg-white shadow-md rounded-lg overflow-hidden w-full px-6 py-8">
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="flex flex-col items-center justify-center mb-4">
-                            <h2 className="mb-2 text-xl font-bold">Profile</h2>
-                            <div className="relative rounded-full overflow-hidden w-16 h-16 mb-2 flex items-center justify-center">
-                                <FontAwesomeIcon icon={faUser} className="text-gray-700 w-8 h-8" />
-                                <div className="absolute inset-0 flex items-center justify-center ml-8 mt-8">
-                                    <div className="w-6 h-6 bg-yellow-300 rounded-full flex items-center justify-center">
-                                        <FontAwesomeIcon icon={faCamera} className="text-gray-700 w-4 h-4 cursor-pointer" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-1 gap-y-4">
-                            {/* Username Input */}
-                            <div className="relative mb-4 ">
-                                <label htmlFor="username" className="block text-md font-bold leading-6 text-gray-900">
-                                    Username
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        id="username"
-                                        {...register('username', { required: true })}
-                                        type="text"
-                                        className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md"
-                                    />
-                                    {errors.username && (
-                                        <p className="text-red-500 text-sm mt-1">Username is required</p>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Password Input */}
-                            <div className="relative mb-4">
-                                <label htmlFor="password" className="block text-md font-bold leading-6 text-gray-900">
-                                    Password
-                                </label>
-                                <div className="mt-2 relative">
-                                    <input
-                                        id="password"
-                                        {...register('password', {
-                                            required: 'Password is required',
-                                            minLength: {
-                                                value: 8,
-                                                message: 'Password must be at least 8 characters long',
-                                            },
-                                        })}
-                                        type="password"
-                                        className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md"
-                                    />
-                                    {errors.password && (
-                                        <p className="text-red-500 text-sm mt-1">{getErrorMessage(errors.password)}</p>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* First Name Input */}
-                            <div className="relative mb-4">
-                                <label htmlFor="firstname" className="block text-md font-bold leading-6 text-gray-900">
-                                    Firstname
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        id="firstname"
-                                        {...register('firstname', { required: true })}
-                                        type="text"
-                                        className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md"
-                                    />
-                                    {errors.firstname && (
-                                        <p className="text-red-500 text-sm mt-1">Firstname is required</p>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Last Name Input */}
-                            <div className="relative mb-4">
-                                <label htmlFor="lastname" className="block text-md font-bold leading-6 text-gray-900">
-                                    Lastname
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        id="lastname"
-                                        {...register('lastname', { required: true })}
-                                        type="text"
-                                        className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md"
-                                    />
-                                    {errors.lastname && (
-                                        <p className="text-red-500 text-sm mt-1">Lastname is required</p>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Email ID Input */}
-                            <div className="relative mb-4">
-                                <label htmlFor="email" className="block text-md font-bold leading-6 text-gray-900">
-                                    Email ID
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        id="email"
-                                        {...register('email', {
-                                            required: 'Email ID is required',
-                                            pattern: {
-                                                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                                                message: 'Enter a valid email address',
-                                            },
-                                        })}
-                                        type="email"
-                                        className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md"
-                                    />
-                                    {errors.email && (
-                                        <p className="text-red-500 text-sm mt-1">{getErrorMessage(errors.email)}</p>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Mobile No Input */}
-                            <div className="relative mb-4">
-                                <label htmlFor="mobile" className="block text-md font-bold leading-6 text-gray-900">
-                                    Mobile No
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        id="mobile"
-                                        {...register('mobile', {
-                                            required: 'Mobile No is required',
-                                            validate: value => value.length === 10 || 'Mobile No must be 10 digits long',
-                                        })}
-                                        type="text"
-                                        className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md"
-                                    />
-                                    {errors.mobile && (
-                                        <p className="text-red-500 text-sm mt-1">{getErrorMessage(errors.mobile)}</p>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="relative mb-4">
-                                <label
-                                    htmlFor="nearestPoliceStation"
-                                    className="block text-md font-bold leading-6 text-gray-900"
-                                >
-                                    Nearest Police Station
-                                </label>
-                                <div className="mt-2 relative">
-                                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <FontAwesomeIcon icon={faLocationDot} className="text-gray-700 w-4 h-4" />
-                                    </span>
-                                    <select
-                                        id="nearestPoliceStation"
-                                        {...register('nearestPoliceStation', { required: true })}
-                                        className="shadow appearance-none border w-full py-4 pl-10 pr-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 rounded-md"
-                                    >
-                                        <option value="APMC">APMC</option>
-                                        <option value="Vashi">Vashi</option>
-                                        <option value="Nerul">Nerul</option>
-                                        <option value="Turbhe">Turbhe</option>
-                                        <option value="Ghansoli">Ghansoli</option>
-                                    </select>
-                                    {errors.nearestPoliceStation && (
-                                        <p className="text-red-500 text-sm mt-1">This field is required</p>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="flex justify-center ">
-                                <button
-                                    className="bg-yellow-500 text-white px-8 py-2 rounded-full shadow hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50 w-full"
-                                    type="submit"
-                                >
-                                    Submit
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            {/* Mobile Menu */}
-            <div className="sm:hidden w-full">
-                <MobileMenu isLogin={true} />
-            </div>
-
-        </>
-    );
+type FormData = {
+  username: string;
+  password: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  contact: string;
+  dropdown: string;
 };
 
-export default ProfileComponent;
+const ProfilePage = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    console.log('Form Data:', data);
+  };
+
+  return (
+    <>
+    <Header2/>
+    
+    <div className="w-full h-screen bg-gray-100 flex justify-center items-center">
+      {/* Main Container */}
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-8xl flex flex-col lg:flex-row h-full">
+        {/* Left Side: Large Profile Image */}
+        <div className="w-full lg:w-1/3 flex flex-col items-center justify-center bg-gray-200 p-8">
+          <div className="w-48 h-48 rounded-full overflow-hidden bg-gray-300 mb-4 flex items-center justify-center">
+            <img src="/profilepic.jpg" alt="Profile" className="w-full h-full object-cover" />
+          </div>
+          {/* Change Photo Button for Mobile */}
+          <div className="lg:hidden text-center">
+            <button className="mt-2 text-blue-500 hover:text-blue-700">Change Photo</button>
+          </div>
+        </div>
+
+        {/* Right Side: Form Section */}
+        <div className="w-full lg:w-2/3 p-8 overflow-y-auto">
+          {/* Small Profile Image and Change Photo Button */}
+          <div className="hidden lg:flex items-center mb-8">
+            <div className="relative rounded-full overflow-hidden w-20 h-20 mr-4 flex items-center justify-center bg-gray-200">
+              <img src="/profilepic.jpg" alt="Profile" className="w-full h-full object-cover" />
+              <div className="absolute bottom-0 right-0 flex items-center justify-center">
+                <div className="w-8 h-8 bg-yellow-300 rounded-full flex items-center justify-center">
+                  <FontAwesomeIcon icon={faCamera} className="text-gray-700 w-4 h-4 cursor-pointer" />
+                </div>
+              </div>
+            </div>
+
+            {/* Show Change Photo button only on larger screens */}
+            <div>
+              <h2 className="text-lg font-bold">Your Photo</h2>
+              <button className="mt-2 text-blue-500 hover:text-blue-700">Change Photo</button>
+            </div>
+          </div>
+
+          {/* Form Fields */}
+          <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Username Field */}
+            <div>
+              <label htmlFor="username" className="block text-sm font-bold text-gray-700 mb-1">Username</label>
+              <input
+                id="username"
+                type="text"
+                {...register('username', { required: 'Username is required' })}
+                className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
+              />
+              {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>}
+            </div>
+
+            {/* Password Field */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-bold text-gray-700 mb-1">Password</label>
+              <input
+                id="password"
+                type="password"
+                {...register('password', { required: 'Password is required' })}
+                className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
+              />
+              {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+            </div>
+
+            {/* First Name Field */}
+            <div>
+              <label htmlFor="firstname" className="block text-sm font-bold text-gray-700 mb-1">First Name</label>
+              <input
+                id="firstname"
+                type="text"
+                {...register('firstname', { required: 'First Name is required' })}
+             className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
+              />
+              {errors.firstname && <p className="text-red-500 text-sm mt-1">{errors.firstname.message}</p>}
+            </div>
+
+            {/* Last Name Field */}
+            <div>
+              <label htmlFor="lastname" className="block text-sm font-bold text-gray-700 mb-1">Last Name</label>
+              <input
+                id="lastname"
+                type="text"
+                {...register('lastname', { required: 'Last Name is required' })}
+              className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
+              />
+              {errors.lastname && <p className="text-red-500 text-sm mt-1">{errors.lastname.message}</p>}
+            </div>
+
+            {/* Email Field */}
+            <div className="col-span-1 lg:col-span-2">
+              <label htmlFor="email" className="block text-sm font-bold text-gray-700 mb-1">Email</label>
+              <input
+                id="email"
+                type="email"
+                {...register('email', { required: 'Email is required', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email address' } })}
+                className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
+              />
+              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+            </div>
+
+            {/* Contact Field */}
+            <div className="col-span-1 lg:col-span-2">
+              <label htmlFor="contact" className="block text-sm font-bold text-gray-700 mb-1">Contact</label>
+              <input
+                id="contact"
+                type="text"
+                {...register('contact', { required: 'Contact is required' })}
+                className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
+              />
+              {errors.contact && <p className="text-red-500 text-sm mt-1">{errors.contact.message}</p>}
+            </div>
+
+            {/* Dropdown Field */}
+            <div className="col-span-1 lg:col-span-2">
+              <label htmlFor="dropdown" className="block text-sm font-bold text-gray-700 mb-1">Nearest Police Station</label>
+              <select
+                id="dropdown"
+                {...register('dropdown', { required: 'Selection is required' })}
+               className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
+              >
+                <option value="">Select</option>
+                <option value="APMC">APMC</option>
+                <option value="Vashi">Vashi</option>
+                <option value="Nerul">Nerul</option>
+                <option value="Turbhe">Turbhe</option>
+                <option value="Ghansoli">Ghansoli</option>
+              </select>
+              {errors.dropdown && <p className="text-red-500 text-sm mt-1">{errors.dropdown.message}</p>}
+            </div>
+
+            {/* Save Button */}
+            <div className="col-span-1 lg:col-span-2 flex justify-end">
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-8 py-3 rounded-full shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 w-full lg:w-auto"
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    </>
+  );
+};
+
+export default ProfilePage;

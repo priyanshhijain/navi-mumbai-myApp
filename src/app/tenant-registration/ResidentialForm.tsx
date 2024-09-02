@@ -22,14 +22,13 @@ type Inputs = {
     brokerContactNo: string;
     agreementType: string;
     landlordAddress: any;
+    files: [], // add this line
 };
 
 const ResidentialForm = () => {
     const { register, handleSubmit, control, formState: { errors }, watch, setValue } = useForm<Inputs>();
     const [selectedBox, setSelectedBox] = useState<string | null>(null);
-    const [ownerPhotos, setOwnerPhotos] = useState<File[]>([]);
-    const [tenantPhotos, setTenantPhotos] = useState<File[]>([]);
-    const [roommatePhotos, setRoommatePhotos] = useState<File[]>([]);
+
 
 
     const handleBoxClick = (box: string) => {
@@ -54,10 +53,7 @@ const ResidentialForm = () => {
         "employee-id",
         "bonafide-certificate",
         "student-id",
-        "owner-photos",
-        "tenant-photos",
-        "owner-signature",
-        "tenant-signature",
+
         "owner-tenant-photos",
         // "roommate-photos",
     ];
@@ -71,9 +67,9 @@ const ResidentialForm = () => {
         "Company Employee ID",
         "Company Bonafide Certificate",
         "Student ID Card",
-        "Photographs of owner",
-        "Photographs of tenants",
-        "Signature of owner",
+        // "Photographs of owner",
+        // "Photographs of tenants",
+        // "Signature of owner",
         "Signature of tenant",
         "Photographs of owner and tenant",
         // "Photographs of roommate",
@@ -94,11 +90,11 @@ const ResidentialForm = () => {
         }
     };
 
-    const removeFile = (index) => {
+    const removeFile = (index: any) => {
         const updatedArray = [...fileArray]; // Create a copy of the array
         updatedArray.splice(index, 1); // Remove the file at the specified index
         setFileArray(updatedArray);
-      };
+    };
 
     return (
         <div>
@@ -418,14 +414,14 @@ const ResidentialForm = () => {
                         </div>
 
                     </div>
-                    <div className="flex items-center">
-                        <label for="fileInput">
+                    <div className="flex items-center py-3 px-3 bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-lg shadow-md">
+                        {/* File Upload Section */}
+                        <label className="flex items-center cursor-pointer">
                             <FontAwesomeIcon
                                 icon={faCamera}
-                                className="h-4 w-8 mr-2 cursor-pointer"
-                              
+                                className="h-5 w-5 text-gray-600 mr-2"
                             />
-                            Photograph of roommate
+                            <span className="text-md font-medium text-gray-700">Photograph of Roommate</span>
                             <input
                                 type="file"
                                 id="fileInput"
@@ -435,23 +431,25 @@ const ResidentialForm = () => {
                                 hidden
                             />
                         </label>
+
+                        {/* Horizontal File List Section */}
+                        {fileArray.length > 0 && (
+                            <ul className="flex items-center gap-4 ml-4">
+                                {fileArray.map((file, index) => (
+                                    <li key={index} className="flex items-center p-2 bg-gray-100 rounded-lg">
+                                        <span className="text-sm text-gray-800 mr-2">{file.name}</span>
+                                        <FontAwesomeIcon
+                                            icon={faTimes}
+                                            className="cursor-pointer text-red-500 hover:text-red-700"
+                                            onClick={() => removeFile(index)}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
-                    {fileArray.length > 0 && (
-        <div className="mt-4">
-          <ul className="list-disc ml-6 list-none">
-            {fileArray.map((file, index) => (
-              <li key={index} className="mt-2">
-                {file.name}
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  className="cursor-pointer ml-2 text-red-500 hover:text-red-700"
-                  onClick={() => removeFile(index)}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+
+
                     <div className="flex items-center justify-center mt-8 mb-32">
                         <button
                             type="submit"
