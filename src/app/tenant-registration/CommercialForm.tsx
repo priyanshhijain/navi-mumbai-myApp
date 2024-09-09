@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faLocationDot, faCar, faCheckCircle, faPaperclip, faCamera, faBook, faFileContract } from '@fortawesome/free-solid-svg-icons';
