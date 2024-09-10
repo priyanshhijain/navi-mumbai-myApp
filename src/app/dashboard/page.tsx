@@ -19,11 +19,9 @@ const Dashboard: React.FC = () => {
     }, []);
 
     const handleNavigation = (path: string) => {
-        if (isLogin) {
+       
             router.push(path);
-        } else {
-            console.log("You must be logged in to access this section.");
-        }
+       
     };
 
     const handleTenantOccaionperClick = () => handleNavigation('/occasion-permission');
@@ -49,34 +47,31 @@ const Dashboard: React.FC = () => {
         <div className="min-h-screen bg-slate-100">
             <Header />
             <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4 p-2 sm:p-4 lg:p-8">
-                {items.map((item) => (
-                    <div
-                        key={item.id}
-                        className="bg-white rounded-lg p-3 sm:p-4 lg:p-6 flex items-center h-28 sm:h-36 cursor-pointer hover:bg-gray-50"
-                        onClick={item.onClick}
-                    >
-                        {/* Left side: Small circle with image/icon */}
-                        <div className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${item.bgColor}`}>
-                            <img
-                                src={item.imgSrc}
-                                alt="Icon"
-                                className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
-                            />
-                        </div>
+            {items.map((item) => (
+    <div
+        key={item.id}
+        className="bg-white rounded-lg p-3 sm:p-4 lg:p-6 flex items-center h-28 sm:h-36 cursor-pointer hover:bg-gray-50"
+        // If no onClick is provided, fallback to a default behavior (like logging)
+        onClick={item.onClick || (() => console.log(`${item.text} clicked but no action assigned.`))}
+    >
+        {/* Left side: Small circle with image/icon */}
+        <div className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${item.bgColor}`}>
+            <img
+                src={item.imgSrc}
+                alt="Icon"
+                className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+            />
+        </div>
 
-                        {/* Right side: Text content */}
-                        <div className="ml-3 sm:ml-4 flex flex-col justify-center">
-                            <span className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800">
-                                {item.text}
-                            </span>
-                            {/* <span className="text-xs sm:text-sm lg:text-base text-black underline cursor-pointer">
-                                Click Here
-                            </span> */}
+        {/* Right side: Text content */}
+        <div className="ml-3 sm:ml-4 flex flex-col justify-center">
+            <span className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800">
+                {item.text}
+            </span>
+        </div>
+    </div>
+))}
 
-
-                        </div>
-                    </div>
-                ))}
             </div>
 
             {/* Mobile Menu Component */}

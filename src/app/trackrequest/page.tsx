@@ -38,6 +38,10 @@ const TrackRequestPage: React.FC = () => {
             <Header2 />
             <div className="bg-gray-100 flex flex-col items-center justify-center py-6 px-4 sm:py-8 sm:px-6 lg:py-10 lg:px-8">
                 <div className="w-full max-w-3xl bg-white shadow-xl rounded-lg p-6 sm:p-8 lg:p-10">
+                <h1 className="text-2xl font-bold pl-4 ">
+    Track Request
+</h1>
+
                     <ul className="w-full bg-white shadow-sm rounded-lg">
                         <li className="hidden sm:flex p-6 rounded-t-lg border-b">
                             <div className="flex-1 font-bold text-gray-900 text-center sm:text-left">

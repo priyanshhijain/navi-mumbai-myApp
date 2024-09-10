@@ -30,7 +30,7 @@ const Header2: React.FC = () => {
             <a href="/dashboard" className="text-base font-medium text-white hover:text-gray-300">
               Dashboard
             </a>
-            <a href="#" className="text-base font-medium text-white hover:text-gray-300">
+            <a href="/trackrequest" className="text-base font-medium text-white hover:text-gray-300">
               Track Request
             </a>
             <a href="/profile" className="text-base font-medium text-white hover:text-gray-300">

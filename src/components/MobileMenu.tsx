@@ -31,7 +31,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isLogin }) => {
                 <span className="text-gray-700 text-sm font-bold">Profile</span>
             </div>
     
-            <div className={`flex flex-col items-center ${!isLogin ? 'mr-4' : ''}`}>
+            <div className={`flex flex-col items-center ${!isLogin ? 'mr-4' : ''}`} onClick={() => handleNavigation('/trackrequest')}>
                 <div className="mb-2 cursor-pointer">
                     <FontAwesomeIcon icon={faShuffle} />
                 </div>
