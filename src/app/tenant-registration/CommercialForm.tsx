@@ -1,66 +1,109 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faLocationDot, faCar, faCheckCircle, faPaperclip, faCamera, faBook, faFileContract } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faLocationDot, faCar, faCheckCircle, faPaperclip, faTimes, faCamera, faBook, faFileContract } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import Dropdown from '@/components/Dropdown';
-const CommercialForm = () => {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+import { SubmitHandler } from 'react-hook-form';
+interface Inputs {
+    purposeOfbusiness: string;
+    nearestPoliceStation: string;
+    tenantsName: string;
+    tenantsContactNo: string;
+    permanentAddress: string;
+    previousResidentialAddress: string;
+    leaseStartDate: string;
+    leaseEndDate: string;
+    totalFamilyMembers: string;
+    landlordName: string;
+    landlordAddress: string;
+    agreementType: string;
+    brokerName: string;
+    brokerContactNo: string;
+    [key: string]: any; // For dynamic fields like file inputs
+  }
+  const CommercialForm = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+        setValue,
+        watch,
+      } = useForm<Inputs>({
         defaultValues: {
-            purposeOfbusiness: '',
-            nearestPoliceStation: 'APMC',
-            tenantsName: '',
-            tenantsContactNo: '',
-            permanentAddress: '',
-            previousResidentialAddress: '',
-            leaseStartDate: '',
-            leaseEndDate: '',
-            totalFamilyMembers: '',
-            landlordName: '',
-            landlordAddress: '',
-            agreementType: 'fixedTerm',
-            brokerName: '',
-            brokerContactNo: ''
-        }
-    });
-
-    const onSubmit = (data: any) => {
-        alert("form submitted")
+          purposeOfbusiness: '',
+          nearestPoliceStation: 'APMC',
+          tenantsName: '',
+          tenantsContactNo: '',
+          permanentAddress: '',
+          previousResidentialAddress: '',
+          leaseStartDate: '',
+          leaseEndDate: '',
+          totalFamilyMembers: '',
+          landlordName: '',
+          landlordAddress: '',
+          agreementType: 'fixedTerm',
+          brokerName: '',
+          brokerContactNo: '',
+        },
+      });
+    
+      const onSubmit: SubmitHandler<Inputs> = (data) => {
+        alert('Form submitted');
         console.log('Form data:', data);
         reset(); // Reset form after submission
-    };
-    const fileInputIds = [
-        "upload-contract",
-        "latest-agreement-bills",
-        "owner-aadhaar",
-        "tenant-aadhaar",
-        "roommate-aadhaar",
-        "employee-id",
-        "bonafide-certificate",
-        "student-id",
-        "owner-photos",
-        "tenant-photos",
-        "owner-signature",
-        "tenant-signature",
-        "owner-tenant-photos",
-        "roommate-photos",
-    ];
-
-    const fileLabels = [
-        "Upload contract",
-        "Latest agreement bills",
+      };
+    
+      const fileInputIds = [
+        'upload-contract',
+        'latest-agreement-bills',
+        'owner-aadhaar',
+        'tenant-aadhaar',
+        'roommate-aadhaar',
+        'employee-id',
+        'bonafide-certificate',
+        'student-id',
+        'owner-photos',
+        'tenant-photos',
+        'owner-signature',
+        'tenant-signature',
+        'owner-tenant-photos',
+        'roommate-photos',
+      ];
+    
+      const fileLabels = [
+        'Upload contract',
+        'Latest agreement bills',
         "Owner's Aadhaar card",
         "Tenant's Aadhaar card",
         "Roommate's Aadhaar card",
-        "Company Employee ID",
-        "Company Bonafide Certificate",
-        "Student ID Card",
-        "Photographs of owner",
-        "Photographs of tenants",
-        "Signature of owner",
-        "Signature of tenant",
-        "Photographs of owner and tenant",
-        "Photographs of roommate",
-    ];
+        'Company Employee ID',
+        'Company Bonafide Certificate',
+        'Student ID Card',
+        'Photographs of owner',
+        'Photographs of tenants',
+        'Signature of owner',
+        'Signature of tenant',
+        'Photographs of owner and tenant',
+        'Photographs of roommate',
+      ];
+    
+      const [fileArray, setFileArray] = useState<File[]>([]);
+      const removeFile = (index: number) => {
+        const updatedArray = [...fileArray];
+        updatedArray.splice(index, 1);
+        setFileArray(updatedArray);
+      };
+    
+      const watchFiles = fileInputIds.map((id) => watch(id));
+    
+      const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newFiles = event.target.files;
+        if (newFiles) {
+          const newFileArray = Array.from(newFiles);
+          setFileArray((prevFiles) => [...prevFiles, ...newFileArray]);
+        }
+      };
 
     return (
         <div>
@@ -280,33 +323,113 @@ const CommercialForm = () => {
 
                 <div className="relative mb-4 mt-8">
 
-                    <div className="flex flex-col gap-4">
-                        <div className="text-gray-900 dark:text-gray-100">
-                            <div className="flex items-center space-x-2">
-                                <FontAwesomeIcon icon={faPaperclip} className="text-gray-500 dark:text-gray-400 text-xl font-bold" />
-                                <h3 className="text-xl font-bold">Assignment</h3>
+                    <div className="relative mb-4 mt-8">
+
+                        <div className="flex flex-col gap-4">
+                            <div className="text-gray-900 dark:text-gray-100">
+                                <div className="flex items-center space-x-2">
+                                    <FontAwesomeIcon icon={faPaperclip} className="text-gray-500 dark:text-gray-400 text-xl font-bold" />
+                                    <h3 className="text-xl font-bold">Assignment</h3>
+                                </div>
+                                <hr className="border-gray-500 dark:border-gray-400 mt-2" />
                             </div>
-                            <hr className="border-gray-500 dark:border-gray-400 mt-2" />
+                            {fileInputIds.map((id, index) => {
+                                const fileName = watchFiles[index]?.[0]?.name; // Get the file name if a file is selected
+
+                                return (
+                                    <div
+                                        key={id}
+                                        className="flex items-center py-3 px-3 bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-lg shadow-md"
+                                    >
+                                        <input
+                                            type="file"
+                                            id={id}
+                                            className="hidden"
+                                            {...register(id)}
+                                            multiple
+                                        />
+
+                                        <FontAwesomeIcon
+                                            icon={faFileContract}
+                                            className="h-4 w-8 mr-2 cursor-pointer"
+                                            onClick={() => document.getElementById(id)?.click()}
+                                        />
+
+                                        {index >= fileInputIds.length - 4 && (
+                                            <FontAwesomeIcon
+                                                icon={faCamera}
+                                                className="h-4 w-8 mr-2 cursor-pointer"
+                                                onClick={() => document.getElementById(id)?.click()}
+                                            />
+                                        )}
+
+                                        <span className="ml-2">
+                                            {fileName || fileLabels[index]}
+                                        </span>
+
+                                        {/* Conditionally render the cross button if a file is selected */}
+
+                                        {fileName && (
+                                            <FontAwesomeIcon
+                                                icon={faTimes} // Cross icon
+                                                className="ml-2 h-4 w-4 text-red-500 cursor-pointer"
+                                                onClick={() => {
+                                                    // Clear the selected file
+                                                    const element = document.getElementById(id);
+                                                    if (element) {
+                                                        (element as HTMLInputElement).value = '';
+                                                    }
+
+                                                    // Update form state and UI
+                                                    // Reset the file in watchFiles (assuming you use `setValue` for form state management)
+                                                    setValue(id as string, null);
+                                                    // Optionally, if you need to manage state separately
+                                                    // setWatchFiles(prev => prev.filter((_, i) => i !== index));
+                                                }}
+                                            />
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
-                        {fileInputIds.map((id, index) => (
-                            <div key={id} className="flex items-center py-3 px-3 bg-white text-gray-700 rounded-lg shadow-md">
-                                <input type="file" id={id} className="hidden" />
-                                <FontAwesomeIcon
-                                    icon={faFileContract}
-                                    className="h-4 w-8 mr-2 cursor-pointer"
-                                    onClick={() => document.getElementById(id)?.click()}
-                                />
-                                {index >= fileInputIds.length - 4 && (
-                                    <FontAwesomeIcon
-                                        icon={faCamera}
-                                        className="h-4 w-8 mr-2 cursor-pointer"
-                                        onClick={() => document.getElementById(id)?.click()}
-                                    />
-                                )}
-                                <span className="ml-2">{fileLabels[index]}</span>
-                            </div>
-                        ))}
+
                     </div>
+                    <div className="flex items-center py-3 px-3 bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-lg shadow-md">
+                        {/* File Upload Section */}
+                        <label className="flex items-center cursor-pointer">
+                            <FontAwesomeIcon
+                                icon={faCamera}
+                                className="h-5 w-5 text-gray-600 mr-2"
+                            />
+                            <span className="text-md font-medium text-gray-700">Photograph of Roommate</span>
+                            <input
+                                type="file"
+                                id="fileInput"
+                                multiple
+                                {...register('files')}
+                                onChange={handleFileChange}
+                                hidden
+                            />
+                        </label>
+
+                        {/* Horizontal File List Section */}
+                        {fileArray.length > 0 && (
+                            <ul className="flex items-center gap-4 ml-4">
+                                {fileArray.map((file, index) => (
+                                    <li key={index} className="flex items-center p-2 bg-gray-100 rounded-lg">
+                                        <span className="text-sm text-gray-800 mr-2">{file.name}</span>
+                                        <FontAwesomeIcon
+                                            icon={faTimes}
+                                            className="cursor-pointer text-red-500 hover:text-red-700"
+                                            onClick={() => removeFile(index)}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+
+
                 </div>
                 <div className="flex items-center justify-center mt-8 mb-32">
                     <button

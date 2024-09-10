@@ -74,9 +74,9 @@ const InfoPanel: React.FC = () => {
         {selectedOption === 'Lost' && <LostComponent />}
 
       </div>
-      {/* <div className="sm:hidden fixed bottom-0 w-full ">
+      <div className="sm:hidden fixed bottom-0 w-full ">
         <MobileMenu isLogin={false} />
-      </div> */}
+      </div>
     </>
   );
 };

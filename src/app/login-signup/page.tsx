@@ -42,10 +42,19 @@ const LoginSignupPage: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-4 sm:px-6 lg:px-8">
-      <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg transition-all duration-300">
+    <div className="relative flex justify-center items-center min-h-screen px-4 sm:px-6 lg:px-8">
+      {/* Background Image with Full Width */}
+      <div
+        className="absolute inset-0 w-full h-full bg-no-repeat bg-cover opacity-30"
+        style={{ backgroundImage: `url('/police_img.png')`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: -1 }}
+      ></div>
+
+      <div className="relative bg-white p-6 md:p-8 rounded-lg shadow-lg w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg transition-all duration-300">
         <div className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2">Welcome</h1>
+        <div className="flex justify-center mb-6">
+  <img src="logo.jpeg" alt="Logo" className="w-16 h-auto rounded-full" />
+</div>
+
           <p className="text-base md:text-sm font-semibold">Please login or sign up to continue with the application</p>
         </div>
         <div className="mb-6 flex justify-center">

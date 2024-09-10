@@ -69,9 +69,9 @@ const Dashboard: React.FC = () => {
                             <span className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800">
                                 {item.text}
                             </span>
-                            <span className="text-xs sm:text-sm lg:text-base text-black underline cursor-pointer">
+                            {/* <span className="text-xs sm:text-sm lg:text-base text-black underline cursor-pointer">
                                 Click Here
-                            </span>
+                            </span> */}
 
 
                         </div>
@@ -80,9 +80,9 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Mobile Menu Component */}
-            {/* <div className="sm:hidden">
-          <MobileMenu isLogin={isLogin} />
-      </div> */}
+            <div className="sm:hidden">
+                <MobileMenu isLogin={isLogin} />
+            </div>
         </div>
     );
 };

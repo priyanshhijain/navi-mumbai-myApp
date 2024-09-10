@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faLocationDot, faCar, faCheckCircle, faPaperclip, faFileContract, faBook, faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form';
+
 import Dropdown from '@/components/Dropdown';
 type Inputs = {
     purposeOfStay: string;
@@ -354,63 +355,61 @@ const ResidentialForm = () => {
                                 <hr className="border-gray-500 dark:border-gray-400 mt-2" />
                             </div>
                             {fileInputIds.map((id, index) => {
-                                const fileName = watchFiles[index]?.[0]?.name; // Get the file name if a file is selected
+    const fileName = watchFiles[index]?.[0]?.name; // Get the file name if a file is selected
 
-                                return (
-                                    <div
-                                        key={id}
-                                        className="flex items-center py-3 px-3 bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-lg shadow-md"
-                                    >
-                                        <input
-                                            type="file"
-                                            id={id}
-                                            className="hidden"
-                                            {...register(id as keyof Inputs)}
-                                            multiple
-                                        />
+    return (
+        <div
+            key={id}
+            className="flex items-center py-3 px-3 bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-lg shadow-md"
+        >
+            <input
+                type="file"
+                id={id}
+                className="hidden"
+                {...register(id as keyof Inputs)}
+                multiple
+            />
 
-                                        <FontAwesomeIcon
-                                            icon={faFileContract}
-                                            className="h-4 w-8 mr-2 cursor-pointer"
-                                            onClick={() => document.getElementById(id)?.click()}
-                                        />
+            <FontAwesomeIcon
+                icon={faFileContract}
+                className="h-4 w-8 mr-2 cursor-pointer"
+                onClick={() => document.getElementById(id)?.click()}
+            />
 
-                                        {index >= fileInputIds.length - 4 && (
-                                            <FontAwesomeIcon
-                                                icon={faCamera}
-                                                className="h-4 w-8 mr-2 cursor-pointer"
-                                                onClick={() => document.getElementById(id)?.click()}
-                                            />
-                                        )}
+            {/* Conditionally render the camera icon, excluding specified labels */}
+            {index >= fileInputIds.length - 4 && !['employee-id', 'bonafide-certificate', 'student-id', 'Signature of tenant'].includes(id) && (
+                <FontAwesomeIcon
+                    icon={faCamera}
+                    className="h-4 w-8 mr-2 cursor-pointer"
+                    onClick={() => document.getElementById(id)?.click()}
+                />
+            )}
 
-                                        <span className="ml-2">
-                                            {fileName || fileLabels[index]}
-                                        </span>
+            <span className="ml-2">
+                {fileName || fileLabels[index]}
+            </span>
 
-                                        {/* Conditionally render the cross button if a file is selected */}
+            {/* Conditionally render the cross button if a file is selected */}
+            {fileName && (
+                <FontAwesomeIcon
+                    icon={faTimes} // Cross icon
+                    className="ml-2 h-4 w-4 text-red-500 cursor-pointer"
+                    onClick={() => {
+                        // Clear the selected file
+                        const element = document.getElementById(id);
+                        if (element) {
+                            (element as HTMLInputElement).value = '';
+                        }
 
-                                        {fileName && (
-                                            <FontAwesomeIcon
-                                                icon={faTimes} // Cross icon
-                                                className="ml-2 h-4 w-4 text-red-500 cursor-pointer"
-                                                onClick={() => {
-                                                    // Clear the selected file
-                                                    const element = document.getElementById(id);
-                                                    if (element) {
-                                                        (element as HTMLInputElement).value = '';
-                                                    }
+                        // Update form state and UI
+                        setValue(id as keyof Inputs, null);
+                    }}
+                />
+            )}
+        </div>
+    );
+})}
 
-                                                    // Update form state and UI
-                                                    // Reset the file in watchFiles (assuming you use `setValue` for form state management)
-                                                    setValue(id as keyof Inputs, null);
-                                                    // Optionally, if you need to manage state separately
-                                                    // setWatchFiles(prev => prev.filter((_, i) => i !== index));
-                                                }}
-                                            />
-                                        )}
-                                    </div>
-                                );
-                            })}
                         </div>
 
                     </div>

@@ -62,9 +62,9 @@ const InfoPanel = () => {
                 {propertyType === 'Residential' && <ResidentialForm />}
                 {propertyType === 'Commercial' && <CommercialForm />}
             </div>
-            {/* <div className="sm:hidden fixed bottom-0 w-full">
+            <div className="sm:hidden fixed bottom-0 w-full">
                 <MobileMenu isLogin={false} />
-            </div> */}
+            </div>
         </>
     );
 };
