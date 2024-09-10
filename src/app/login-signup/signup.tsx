@@ -24,8 +24,8 @@ const SignUp = () => {
     console.log(watch("username")); // watch input value by passing the name of it
 
     return (
-        <div className="p-4 max-w-md mx-auto">
-            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <div className="p-4 sm:p-6 md:p-8 lg:p-10 w-full max-w-full md:max-w-2xl lg:max-w-4xl xl:max-w-4xl mx-auto">
+            <form className="space-y-4 sm:space-y-6 w-full" onSubmit={handleSubmit(onSubmit)}>
                 <div className="relative mb-4">
                     <label
                         htmlFor="username"
@@ -183,7 +183,7 @@ const SignUp = () => {
                     <label className="text-gray-700 text-sm font-medium" htmlFor="terms">
                         I agree to all the terms and conditions
                     </label>
-                    {errors.terms && <p className="text-red-500 text-sm ml-2">{errors.terms.message}</p>}
+                    {/* {errors.terms && <p className="text-red-500 text-sm ml-2">{errors.terms.message}</p>} */}
                 </div>
 
                 <button

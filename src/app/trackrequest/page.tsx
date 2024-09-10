@@ -2,6 +2,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import Header2 from '@/components/Header2';
+import MobileMenu from '@/components/MobileMenu';
 
 interface Item {
     id: number;
@@ -91,6 +92,9 @@ const TrackRequestPage: React.FC = () => {
                         ))}
                     </ul>
                 </div>
+            </div>
+            <div className="fixed bottom-0 w-full mt-12 sm:pt-6 sm:hidden">
+                <MobileMenu isLogin={false} />
             </div>
         </>
     );

@@ -2,6 +2,7 @@
 import Header2 from '@/components/Header2';
 import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
+import MobileMenu from '@/components/MobileMenu';
 
 const items = [
     {
@@ -98,6 +99,9 @@ const DetailPage = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="fixed bottom-0 w-full mt-12 sm:pt-6 sm:hidden">
+                <MobileMenu isLogin={false} />
             </div>
         </>
     );
