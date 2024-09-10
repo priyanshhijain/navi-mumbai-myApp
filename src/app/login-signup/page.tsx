@@ -26,7 +26,7 @@ const LoginSignupPage: React.FC = () => {
     }
 
     // Dummy authentication check (replace with real authentication logic)
-    if (data.username === 'priyanshi jain' && data.password === 'priyanshi') {
+    if (data.username === 'user' && data.password === 'password') {
       // Log the data to console
       console.log('Login Data:', data);
 
@@ -34,7 +34,7 @@ const LoginSignupPage: React.FC = () => {
       localStorage.setItem('username', data.username);
 
       // Redirect to dashboard
-      alert('Login success');
+      //alert('Login success');
       router.push(`/dashboard?isLogin=true&username=${encodeURIComponent(data.username)}`);
     } else {
       alert('Invalid username or password');
@@ -45,7 +45,7 @@ const LoginSignupPage: React.FC = () => {
     <div className="relative flex justify-center items-center min-h-screen px-4 sm:px-6 lg:px-8">
       {/* Background Image with Full Width */}
       <div
-        className="absolute inset-0 w-full h-full bg-no-repeat bg-cover opacity-30"
+        className="absolute inset-0 w-full h-full bg-no-repeat bg-cover opacity-80"
         style={{ backgroundImage: `url('/police_img.png')`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: -1 }}
       ></div>
 

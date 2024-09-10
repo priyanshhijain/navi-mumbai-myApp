@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <>
-    <Header2/>s
+    <Header2/>
       <div className="mx-auto max-w-screen-lg px-4 md:px-0">
         <div className="info flex items-center justify-between h-12 w-full bg-gray-100 rounded-3xl mt-8">
           <div className="flex items-center">
