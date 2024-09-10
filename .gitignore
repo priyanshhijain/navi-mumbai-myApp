@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+deploy.txt
+calibre-nmp-citizen-app-web.service
+deploy-nextjs-calibre-nmp-citizen-app.sh
