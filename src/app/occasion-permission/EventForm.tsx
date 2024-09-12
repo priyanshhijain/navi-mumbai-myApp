@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faLocationDot, faPaperclip } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faLocationDot, faPaperclip, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import Dropdown from '@/components/Dropdown';
 
@@ -39,6 +39,20 @@ const EventForm: React.FC<EventFormProps> = ({ eventType, onSubmit }) => {
     onSubmit(data); // Call onSubmit function with form data
   };
 
+  // Separate states for each file upload input
+  const [applicationFiles, setApplicationFiles] = useState<File[]>([]);
+  const [policeNocFiles, setPoliceNocFiles] = useState<File[]>([]);
+  const [municipalNocFiles, setMunicipalNocFiles] = useState<File[]>([]);
+
+  // Handle file selection
+  const handleFileChange = (event: any, setFileState: React.Dispatch<React.SetStateAction<File[]>>) => {
+    const files = Array.from(event.target.files) as File[];
+    setFileState((prevFiles) => [...prevFiles, ...files]);
+  };
+  // Remove individual files
+  const removeFile = (indexToRemove: number, setFileState: React.Dispatch<React.SetStateAction<File[]>>, files: File[]) => {
+    setFileState(files.filter((_, index) => index !== indexToRemove));
+  };
   return (
     <div>
       <div className="mb-4">
@@ -345,50 +359,88 @@ const EventForm: React.FC<EventFormProps> = ({ eventType, onSubmit }) => {
               <hr className="border-gray-500 dark:border-gray-400 mt-2" />
             </div>
 
+            {/* Application Signed Copy */}
             <div className="flex items-center mt-4">
               <input
                 type="file"
-                id="bill-upload"
+                id="application-upload"
                 className="hidden"
-
                 multiple
+                onChange={(e) => handleFileChange(e, setApplicationFiles)}
               />
               <FontAwesomeIcon
                 icon={faBook}
                 className="text-gray-700 mr-2 cursor-pointer"
-                onClick={() => document.getElementById('bill-upload')?.click()}
+                onClick={() => document.getElementById('application-upload')?.click()}
               />
               <h5 className="text-lg text-gray-700">Application signed copy (on organization letter head)</h5>
+              <div className="flex ml-4 space-x-2">
+                {applicationFiles.map((file, index) => (
+                  <div key={index} className="flex items-center">
+                    <p className="text-sm text-gray-600">{file.name}</p>
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className="text-red-500 cursor-pointer ml-2"
+                      onClick={() => removeFile(index, setApplicationFiles, applicationFiles)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
+            {/* NOC of Traffic Police */}
             <div className="flex items-center mt-4">
               <input
                 type="file"
-                id="bill-upload"
+                id="police-noc-upload"
                 className="hidden"
-
                 multiple
+                onChange={(e) => handleFileChange(e, setPoliceNocFiles)}
               />
               <FontAwesomeIcon
                 icon={faBook}
                 className="text-gray-700 mr-2 cursor-pointer"
-                onClick={() => document.getElementById('bill-upload')?.click()}
+                onClick={() => document.getElementById('police-noc-upload')?.click()}
               />
               <h5 className="text-lg text-gray-700">NOC of Traffic Police (In case of Mobile event)</h5>
+              <div className="flex ml-4 space-x-2">
+                {policeNocFiles.map((file, index) => (
+                  <div key={index} className="flex items-center">
+                    <p className="text-sm text-gray-600">{file.name}</p>
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className="text-red-500 cursor-pointer ml-2"
+                      onClick={() => removeFile(index, setPoliceNocFiles, policeNocFiles)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="flex items-center mt-4">
               <input
                 type="file"
-                id="bill-upload"
+                id="municipal-noc-upload"
                 className="hidden"
-
                 multiple
+                onChange={(e) => handleFileChange(e, setMunicipalNocFiles)}
               />
               <FontAwesomeIcon
                 icon={faBook}
                 className="text-gray-700 mr-2 cursor-pointer"
-                onClick={() => document.getElementById('bill-upload')?.click()}
+                onClick={() => document.getElementById('municipal-noc-upload')?.click()}
               />
-              <h5 className="text-lg text-gray-700">NOC of Navi Mumbai Munciple Corporation</h5>
+              <h5 className="text-lg text-gray-700">NOC of Navi Mumbai Municipal Corporation</h5>
+              <div className="flex ml-4 space-x-2">
+                {municipalNocFiles.map((file, index) => (
+                  <div key={index} className="flex items-center">
+                    <p className="text-sm text-gray-600">{file.name}</p>
+                    <FontAwesomeIcon
+                      icon={faTimes}
+                      className="text-red-500 cursor-pointer ml-2"
+                      onClick={() => removeFile(index, setMunicipalNocFiles, municipalNocFiles)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

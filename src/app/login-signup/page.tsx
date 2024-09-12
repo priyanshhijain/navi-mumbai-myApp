@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; // Import useRouter hook from Next.js
 import { useForm, SubmitHandler } from 'react-hook-form';
 import SignUp from './signup';
+import Image from 'next/image';
 
 interface FormData {
   username: string;
@@ -26,7 +27,7 @@ const LoginSignupPage: React.FC = () => {
     }
 
     // Dummy authentication check (replace with real authentication logic)
-    if (data.username === 'priyanshi jain' && data.password === 'priyanshi') {
+    if (data.username === 'user' && data.password === 'password') {
       // Log the data to console
       console.log('Login Data:', data);
 
@@ -35,7 +36,7 @@ const LoginSignupPage: React.FC = () => {
 
       // Redirect to dashboard
       alert('Login success');
-      router.push(`/dashboard?isLogin=true&username=${encodeURIComponent(data.username)}`);
+      router.push(`/dashboard`);
     } else {
       alert('Invalid username or password');
     }
@@ -52,7 +53,13 @@ const LoginSignupPage: React.FC = () => {
       <div className="relative bg-white p-6 md:p-8 rounded-lg shadow-lg w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg transition-all duration-300">
         <div className="mb-6">
         <div className="flex justify-center mb-6">
-  <img src="logo.jpeg" alt="Logo" className="w-16 h-auto rounded-full" />
+  <Image 
+    src="/logo.jpeg" 
+    alt="Logo" 
+    width={64}  // Width in pixels (adjust as needed)
+    height={64} // Height in pixels (adjust as needed)
+    className="rounded-full"
+  />
 </div>
 
           <p className="text-base md:text-sm font-semibold">Please login or sign up to continue with the application</p>

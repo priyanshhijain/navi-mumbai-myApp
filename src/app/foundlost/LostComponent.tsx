@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faCamera, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faCamera, faLocationDot, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import LostOthers from './LostOthers';
 
@@ -19,7 +19,7 @@ const LostComponent: React.FC = () => {
     const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormValues>();
     const [showVehicleForm, setShowVehicleForm] = useState(false);
     const [showOthersForm, setShowOthersForm] = useState(false);
-    const [photos, setPhotos] = useState<File[]>([]);
+    const [photo, setPhoto] = useState<File | null>(null);
     const [rcBookCopy, setRcBookCopy] = useState<File | null>(null);
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -32,17 +32,38 @@ const LostComponent: React.FC = () => {
         setShowOthersForm(value === 'others');
     };
 
+
+
+    // Remove the RC book copy
+    const [photos, setPhotos] = useState<File[]>([]);
+    const [rcBookCopies, setRcBookCopies] = useState<File[]>([]);
+
+    // Handle multiple photo uploads for the vehicle photographs
     const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            setPhotos([...photos, ...Array.from(e.target.files)]);
+            const filesArray = Array.from(e.target.files);
+            setPhotos((prevPhotos) => [...prevPhotos, ...filesArray]);
         }
     };
 
+    // Handle multiple RC book uploads
     const handleRcBookUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            setRcBookCopy(e.target.files[0]);
+            const filesArray = Array.from(e.target.files);
+            setRcBookCopies((prevFiles) => [...prevFiles, ...filesArray]);
         }
     };
+
+    // Remove an individual photo from the photos array
+    const removePhoto = (index: number) => {
+        setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
+    };
+
+    // Remove an individual RC book copy from the rcBookCopies array
+    const removeRcBookCopy = (index: number) => {
+        setRcBookCopies((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    };
+
 
     return (
         <div className="mx-auto max-w-screen-lg px-4 md:px-0">
@@ -66,7 +87,7 @@ const LostComponent: React.FC = () => {
 
             {showVehicleForm && (
                 <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
-                    {/* Select Vehicle Type */}
+                    {/* Select Vehicle */}
                     <div className="mb-8 flex items-center relative mt-8">
                         <label
                             htmlFor="nearestPoliceStation"
@@ -79,12 +100,13 @@ const LostComponent: React.FC = () => {
                         </span>
                         <select
                             id="nearestPoliceStation"
-                            className="appearance-none border w-full py-2 pl-10 pr-3 py-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
+                            className="appearance-none border w-full py-4 pl-10 pr-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
+                            {...register('vehicleType')}
                         >
                             <option value="4 vehicle Car">4 vehicle Car</option>
                             <option value="4 vehicle (Temp/Truck)">4 vehicle (Temp/Truck)</option>
                             <option value="3 vehicle">3 vehicle (Auto)</option>
-                            <option value="2 vehicle">2 vehicle(Motorcycle)</option>
+                            <option value="2 vehicle">2 vehicle (Motorcycle)</option>
                         </select>
                     </div>
 
@@ -100,9 +122,7 @@ const LostComponent: React.FC = () => {
                                 {...register('make', { required: true })}
                                 className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
                             />
-                            {errors.make && (
-                                <p className="text-red-500 text-sm">Make is required</p>
-                            )}
+                            {errors.make && <p className="text-red-500 text-sm">Make is required</p>}
                         </div>
                     </div>
 
@@ -118,9 +138,7 @@ const LostComponent: React.FC = () => {
                                 {...register('model', { required: true })}
                                 className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
                             />
-                            {errors.model && (
-                                <p className="text-red-500 text-sm">Model is required</p>
-                            )}
+                            {errors.model && <p className="text-red-500 text-sm">Model is required</p>}
                         </div>
                     </div>
 
@@ -136,9 +154,7 @@ const LostComponent: React.FC = () => {
                                 {...register('year', { required: true })}
                                 className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
                             />
-                            {errors.year && (
-                                <p className="text-red-500 text-sm">Year is required</p>
-                            )}
+                            {errors.year && <p className="text-red-500 text-sm">Year is required</p>}
                         </div>
                     </div>
 
@@ -154,9 +170,7 @@ const LostComponent: React.FC = () => {
                                 {...register('color', { required: true })}
                                 className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
                             />
-                            {errors.color && (
-                                <p className="text-red-500 text-sm">Color is required</p>
-                            )}
+                            {errors.color && <p className="text-red-500 text-sm">Color is required</p>}
                         </div>
                     </div>
 
@@ -172,9 +186,7 @@ const LostComponent: React.FC = () => {
                                 {...register('licensePlateNo', { required: true })}
                                 className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
                             />
-                            {errors.licensePlateNo && (
-                                <p className="text-red-500 text-sm">License Plate No is required</p>
-                            )}
+                            {errors.licensePlateNo && <p className="text-red-500 text-sm">License Plate No is required</p>}
                         </div>
                     </div>
 
@@ -190,63 +202,81 @@ const LostComponent: React.FC = () => {
                                 {...register('location', { required: true })}
                                 className="shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
                             />
-                            {errors.location && (
-                                <p className="text-red-500 text-sm">Location is required</p>
-                            )}
+                            {errors.location && <p className="text-red-500 text-sm">Location is required</p>}
                         </div>
                     </div>
 
-                    {/* Photographs of the Vehicle */}
-                    <div className="flex items-center mt-4">
-                        <label className="mr-2 text-md font-bold">Photographs of the Vehicle:</label>
-                        <label className="cursor-pointer">
-                            <FontAwesomeIcon icon={faCamera} className="text-gray-600" />
-                            <input
-                                type="file"
-                                accept="image/*"
-                                multiple
-                                className="hidden"
-                                onChange={handlePhotoUpload}
-                            />
-                        </label>
-                    </div>
+                    <div>
+                        {/* Photographs of the Vehicle */}
+                        <div className="flex items-center mt-4">
+                            <label className="mr-2 text-md font-bold">Photographs of the Vehicle:</label>
+                            <div className="flex items-center">
+                                <label className="cursor-pointer">
+                                    <FontAwesomeIcon icon={faCamera} className="text-gray-600" />
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        className="hidden"
+                                        onChange={handlePhotoUpload}
+                                    />
+                                </label>
 
-                    {/* Uploaded Photographs */}
-                    <div className="mt-2">
-                        {photos.map((photo, index) => (
-                            <img key={index} src={URL.createObjectURL(photo)} alt="Uploaded" className="w-32 h-32 object-cover mr-2" />
-                        ))}
-                    </div>
-
-                    {/* RC Book/Card Copy */}
-                    <div className="flex items-center mt-4">
-                        <label className="mr-2 text-md font-bold">RC Book/Card Copy:</label>
-                        <label className="cursor-pointer">
-                            <FontAwesomeIcon icon={faCamera} className="text-gray-600" />
-                            <input
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={handleRcBookUpload}
-                            />
-                        </label>
-                    </div>
-
-                    {/* Uploaded RC Book/Card Copy */}
-                    {rcBookCopy && (
-                        <div className="mt-2">
-                            <img src={URL.createObjectURL(rcBookCopy)} alt="RC Book Copy" className="w-32 h-32 object-cover" />
+                                {/* Display the uploaded file names beside the label */}
+                                <div className="flex flex-wrap ml-4 space-x-2">
+                                    {photos.map((photo, index) => (
+                                        <div key={index} className="relative flex items-center">
+                                            <p className="text-sm text-gray-600 mr-2">{photo.name}</p>
+                                            <FontAwesomeIcon
+                                                icon={faTimes}
+                                                className="text-red-500 cursor-pointer"
+                                                onClick={() => removePhoto(index)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
-                    )}
 
-<div className="flex items-center justify-center mt-8 mb-4">
-                    <button
-                        type="submit"
-                        className="w-full md:w-auto bg-yellow-500 text-black font-bold py-2 px-8 lg:py-4 lg:px-32 rounded-full focus:outline-none focus:shadow-outline"
-                    >
-                        Submit
-                    </button>
-                </div>
+                        {/* RC Book/Card Copy */}
+                        <div className="flex items-center mt-4">
+                            <label className="mr-2 text-md font-bold">RC Book/Card Copy:</label>
+                            <div className="flex items-center">
+                                <label className="cursor-pointer">
+                                    <FontAwesomeIcon icon={faCamera} className="text-gray-600" />
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        className="hidden"
+                                        onChange={handleRcBookUpload}
+                                    />
+                                </label>
+
+                                {/* Display the uploaded file names beside the label */}
+                                <div className="flex flex-wrap ml-4 space-x-2">
+                                    {rcBookCopies.map((file, index) => (
+                                        <div key={index} className="relative flex items-center">
+                                            <p className="text-sm text-gray-600 mr-2">{file.name}</p>
+                                            <FontAwesomeIcon
+                                                icon={faTimes}
+                                                className="text-red-500 cursor-pointer"
+                                                onClick={() => removeRcBookCopy(index)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex items-center justify-center mt-8 mb-4">
+                        <button
+                            type="submit"
+                            className="w-full md:w-auto bg-yellow-500 text-black font-bold py-2 px-8 lg:py-4 lg:px-32 rounded-full focus:outline-none focus:shadow-outline"
+                        >
+                            Submit
+                        </button>
+                    </div>
                 </form>
             )}
 

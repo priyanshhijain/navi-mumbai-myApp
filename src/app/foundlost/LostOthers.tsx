@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 type FormValues = {
@@ -17,7 +17,6 @@ type FormValues = {
 const LostOthers: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
     const [photoFiles, setPhotoFiles] = useState<File[]>([]);
-    const [billFiles, setBillFiles] = useState<File[]>([]);
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         alert("form is submitted")
@@ -25,17 +24,36 @@ const LostOthers: React.FC = () => {
         // Handle form submission logic here
     };
 
+    // Remove the RC book copy
+    const [photos, setPhotos] = useState<File[]>([]);
+    const [rcBookCopies, setRcBookCopies] = useState<File[]>([]);
+
+    // Handle multiple photo uploads for the vehicle photographs
     const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            setPhotoFiles([...photoFiles, ...Array.from(e.target.files)]);
+            const filesArray = Array.from(e.target.files);
+            setPhotos((prevPhotos) => [...prevPhotos, ...filesArray]);
         }
     };
 
-    const handleBillUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Handle multiple RC book uploads
+    const handleRcBookUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            setBillFiles([...billFiles, ...Array.from(e.target.files)]);
+            const filesArray = Array.from(e.target.files);
+            setRcBookCopies((prevFiles) => [...prevFiles, ...filesArray]);
         }
     };
+
+    // Remove an individual photo from the photos array
+    const removePhoto = (index: number) => {
+        setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
+    };
+
+    // Remove an individual RC book copy from the rcBookCopies array
+    const removeRcBookCopy = (index: number) => {
+        setRcBookCopies((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    };
+
 
     return (
         <div className="mx-auto max-w-screen-lg px-4 md:px-8 lg:px-16">
@@ -94,39 +112,69 @@ const LostOthers: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Photo Upload */}
+                {/* Photographs of the Vehicle */}
                 <div className="flex items-center mt-4">
-                    <input
-                        type="file"
-                        id="photo-upload"
-                        className="hidden"
-                        onChange={handlePhotoUpload}
-                        multiple
-                    />
-                    <FontAwesomeIcon
-                        icon={faCamera}
-                        className="text-gray-700 mr-2 cursor-pointer"
-                        onClick={() => document.getElementById('photo-upload')?.click()}
-                    />
-                    <h5 className="text-md font-bold text-gray-700">Photographs of the Item</h5>
+                    <label className="mr-2 text-md font-bold">Photographs of the Vehicle:</label>
+                    <div className="flex items-center">
+                        <label className="cursor-pointer">
+                            <FontAwesomeIcon icon={faCamera} className="text-gray-600" />
+                            <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                className="hidden"
+                                onChange={handlePhotoUpload}
+                            />
+                        </label>
+
+                        {/* Display the uploaded file names beside the label */}
+                        <div className="flex flex-wrap ml-4 space-x-2">
+                            {photos.map((photo, index) => (
+                                <div key={index} className="relative flex items-center">
+                                    <p className="text-sm text-gray-600 mr-2">{photo.name}</p>
+                                    <FontAwesomeIcon
+                                        icon={faTimes}
+                                        className="text-red-500 cursor-pointer"
+                                        onClick={() => removePhoto(index)}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
-                {/* Bill Upload */}
+                {/* RC Book/Card Copy */}
                 <div className="flex items-center mt-4">
-                    <input
-                        type="file"
-                        id="bill-upload"
-                        className="hidden"
-                        onChange={handleBillUpload}
-                        multiple
-                    />
-                    <FontAwesomeIcon
-                        icon={faCamera}
-                        className="text-gray-700 mr-2 cursor-pointer"
-                        onClick={() => document.getElementById('bill-upload')?.click()}
-                    />
-                    <h5 className="text-md font-bold text-gray-700">Bill Invoice Copy of the Items (if present)</h5>
+                    <label className="mr-2 text-md font-bold">RC Book/Card Copy:</label>
+                    <div className="flex items-center">
+                        <label className="cursor-pointer">
+                            <FontAwesomeIcon icon={faCamera} className="text-gray-600" />
+                            <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                className="hidden"
+                                onChange={handleRcBookUpload}
+                            />
+                        </label>
+
+                        {/* Display the uploaded file names beside the label */}
+                        <div className="flex flex-wrap ml-4 space-x-2">
+                            {rcBookCopies.map((file, index) => (
+                                <div key={index} className="relative flex items-center">
+                                    <p className="text-sm text-gray-600 mr-2">{file.name}</p>
+                                    <FontAwesomeIcon
+                                        icon={faTimes}
+                                        className="text-red-500 cursor-pointer"
+                                        onClick={() => removeRcBookCopy(index)}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
+
+
 
                 {/* Submit Button */}
                 <div className="flex items-center justify-center mt-8 mb-4">

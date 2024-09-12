@@ -2,7 +2,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
 type FormValues = {
   make: string;
@@ -20,6 +21,22 @@ const FoundVehicle: React.FC = () => {
   const onSubmit = (data: FormValues) => {
     alert("form is submitted")
     console.log(data);
+  };
+
+
+  const [photographs, setPhotographs] = useState<File[]>([]);
+
+  // Handle file selection
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const files = Array.from(event.target.files);
+      setPhotographs((prevFiles) => [...prevFiles, ...files]);
+    }
+  };
+
+  // Handle file removal
+  const removeFile = (indexToRemove: number) => {
+    setPhotographs((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
   };
 
   return (
@@ -125,22 +142,45 @@ const FoundVehicle: React.FC = () => {
       </div>
 
       <div className="flex items-center mt-4">
+        {/* File Input */}
         <input
           type="file"
-          {...register('photographs', { required: 'At least one photograph is required' })}
           id="photographs-upload"
           className="hidden"
           multiple
+          {...register('photographs', { required: 'At least one photograph is required' })}
+          onChange={handleFileChange}
         />
+
+        {/* Camera Icon */}
         <FontAwesomeIcon
           icon={faCamera}
           className="text-gray-700 mr-2 cursor-pointer"
           onClick={() => document.getElementById('photographs-upload')?.click()}
         />
-        <h5 className="text-md text-gray-700 font-bold">Photographs of the Vehicle</h5>
-     
-      </div>
 
+        {/* Label */}
+        <h5 className="text-md text-gray-700 font-bold">Photographs of the Vehicle</h5>
+
+        {/* Error Message */}
+        {errors.photographs && (
+          <p className="text-red-500 ml-4">{errors.photographs.message}</p>
+        )}
+
+        {/* Display selected files beside the input */}
+        <div className="flex ml-4 space-x-2">
+          {photographs.map((file, index) => (
+            <div key={index} className="flex items-center">
+              <p className="text-sm text-gray-600">{file.name}</p>
+              <FontAwesomeIcon
+                icon={faTimes}
+                className="text-red-500 cursor-pointer ml-2"
+                onClick={() => removeFile(index)}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
       <div className="flex items-center justify-center mt-8 mb-32">
         <button
           type="submit"

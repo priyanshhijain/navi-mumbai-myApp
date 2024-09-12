@@ -47,8 +47,8 @@ const ResidentialForm = () => {
     };
 
     const fileInputIds = [
-        "upload-contract",
-        "latest-agreement-bills",
+        "Agreement Copy",
+        "Latest electricity bill for the leased premise",
         "owner-aadhaar",
         "tenant-aadhaar",
         "roommate-aadhaar",
@@ -56,42 +56,40 @@ const ResidentialForm = () => {
         "bonafide-certificate",
         "student-id",
 
-        "owner-tenant-photos",
-        // "roommate-photos",
     ];
 
     const fileLabels = [
-        "Upload contract",
-        "Latest agreement bills",
+        "Agreement copy",
+        "Latest electricity bill for the leased premise",
         "Owner's Aadhaar card",
         "Tenant's Aadhaar card",
         "Roommate's Aadhaar card",
         "Company Employee ID",
         "Company Bonafide Certificate",
         "Student ID Card",
-        // "Photographs of owner",
-        // "Photographs of tenants",
-        // "Signature of owner",
-        "Signature of tenant",
-        "Photographs of owner and tenant",
-        // "Photographs of roommate",
+       
     ];
 
     // Watch file inputs using react-hook-form's `watch` function
     const watchFiles = fileInputIds.map((id) => watch(id as keyof Inputs));
     // Handle file input change
     const [fileArray, setFileArray] = useState<File[]>([]);
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const [roommateFiles, setRoommateFiles] = useState<File[]>([]);
+    const [ownerFiles, setOwnerFiles] = useState<File[]>([]);
+    const [tenantFiles, setTenantFiles] = useState<File[]>([]);
+    const [tenantSignatureFiles, setTenantSignatureFiles] = useState<File[]>([]);
+    const [ownerSignatureFiles, setOwnerSignatureFiles] = useState<File[]>([]);
+    const handleFileChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        setFiles: React.Dispatch<React.SetStateAction<File[]>>
+      ) => {
         const newFiles = event.target.files;
         if (newFiles) {
-            // Convert FileList to an array
-            const newFileArray = Array.from(newFiles);
-
-            // Combine the new files with the existing files
-            setFileArray((prevFiles) => [...prevFiles, ...newFileArray]);
+          const newFileArray = Array.from(newFiles);
+          // Combine the new files with the existing files
+          setFiles((prevFiles) => [...prevFiles, ...newFileArray]);
         }
-    };
-
+      };
     const removeFile = (index: any) => {
         const updatedArray = [...fileArray]; // Create a copy of the array
         updatedArray.splice(index, 1); // Remove the file at the specified index
@@ -361,7 +359,7 @@ const ResidentialForm = () => {
                                 return (
                                     <div
                                         key={id}
-                                        className="flex items-center py-3 px-3 bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-lg shadow-md"
+                                        className="flex items-center py-3 px-3 bg-white text-gray-700 "
                                     >
                                         <input
                                             type="file"
@@ -377,14 +375,7 @@ const ResidentialForm = () => {
                                             onClick={() => document.getElementById(id)?.click()}
                                         />
 
-                                        {/* Conditionally render the camera icon, excluding specified labels */}
-                                        {index >= fileInputIds.length - 4 && !['employee-id', 'bonafide-certificate', 'student-id', 'Signature of tenant'].includes(id) && (
-                                            <FontAwesomeIcon
-                                                icon={faCamera}
-                                                className="h-4 w-8 mr-2 cursor-pointer"
-                                                onClick={() => document.getElementById(id)?.click()}
-                                            />
-                                        )}
+            
 
                                         <span className="ml-2">
                                             {fileName || fileLabels[index]}
@@ -421,13 +412,13 @@ const ResidentialForm = () => {
                                 icon={faCamera}
                                 className="h-5 w-5 text-gray-600 mr-2"
                             />
-                            <span className="text-md font-medium text-gray-700">Photograph of Roommate</span>
+                            <span className="text-md text-gray-700 py-2">Photograph of Roommate</span>
                             <input
                                 type="file"
                                 id="fileInput"
                                 multiple
                                 {...register('files')}
-                                onChange={handleFileChange}
+                                onChange={(e) => handleFileChange(e, setFileArray)}
                                 hidden
                             />
                         </label>
@@ -436,6 +427,142 @@ const ResidentialForm = () => {
                         {fileArray.length > 0 && (
                             <ul className="flex items-center gap-4 ml-4">
                                 {fileArray.map((file, index) => (
+                                    <li key={index} className="flex items-center p-2 bg-gray-100 rounded-lg">
+                                        <span className="text-sm text-gray-800 mr-2">{file.name}</span>
+                                        <FontAwesomeIcon
+                                            icon={faTimes}
+                                            className="cursor-pointer text-red-500 hover:text-red-700"
+                                            onClick={() => removeFile(index)}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                    <div className="flex items-center py-3 px-3 bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-lg shadow-md">
+                        {/* File Upload Section */}
+                        <label className="flex items-center cursor-pointer">
+                            <FontAwesomeIcon
+                                icon={faCamera}
+                                className="h-5 w-5 text-gray-600 mr-2"
+                            />
+                            <span className="text-md text-gray-700 py-2">Photograph of Owner</span>
+                            <input
+                                type="file"
+                                id="fileInput"
+                                multiple
+                                {...register('files')}
+                                onChange={(e) => handleFileChange(e, setOwnerFiles)}
+                                hidden
+                            />
+                        </label>
+
+                        {/* Horizontal File List Section */}
+                        {ownerFiles.length > 0 && (
+                            <ul className="flex items-center gap-4 ml-4">
+                                {ownerFiles.map((file, index) => (
+                                    <li key={index} className="flex items-center p-2 bg-gray-100 rounded-lg">
+                                        <span className="text-sm text-gray-800 mr-2">{file.name}</span>
+                                        <FontAwesomeIcon
+                                            icon={faTimes}
+                                            className="cursor-pointer text-red-500 hover:text-red-700"
+                                            onClick={() => removeFile(index)}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                    <div className="flex items-center py-3 px-3 bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-lg shadow-md">
+                        {/* File Upload Section */}
+                        <label className="flex items-center cursor-pointer">
+                            <FontAwesomeIcon
+                                icon={faCamera}
+                                className="h-5 w-5 text-gray-600 mr-2"
+                            />
+                            <span className="text-md text-gray-700 py-2">Photograph of Tenant</span>
+                            <input
+                                type="file"
+                                id="fileInput"
+                                multiple
+                                {...register('files')}
+                                onChange={(e) => handleFileChange(e, setTenantFiles)}
+                                hidden
+                            />
+                        </label>
+
+                        {/* Horizontal File List Section */}
+                        {tenantFiles.length > 0 && (
+                            <ul className="flex items-center gap-4 ml-4">
+                                {tenantFiles.map((file, index) => (
+                                    <li key={index} className="flex items-center p-2 bg-gray-100 rounded-lg">
+                                        <span className="text-sm text-gray-800 mr-2">{file.name}</span>
+                                        <FontAwesomeIcon
+                                            icon={faTimes}
+                                            className="cursor-pointer text-red-500 hover:text-red-700"
+                                            onClick={() => removeFile(index)}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                    <div className="flex items-center py-3 px-3 bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-lg shadow-md">
+                        {/* File Upload Section */}
+                        <label className="flex items-center cursor-pointer">
+                            <FontAwesomeIcon
+                                icon={faCamera}
+                             className="h-5 w-5 text-gray-600 mr-2"
+                            />
+                            <span className="text-md text-gray-700 py-2"> Tenant Signature Copy</span>
+                            <input
+                                type="file"
+                                id="fileInput"
+                                multiple
+                                {...register('files')}
+                                onChange={(e) => handleFileChange(e, setTenantSignatureFiles)}
+                                hidden
+                            />
+                        </label>
+
+                        {/* Horizontal File List Section */}
+                        {tenantSignatureFiles.length > 0 && (
+                            <ul className="flex items-center gap-4 ml-4">
+                                {tenantSignatureFiles.map((file, index) => (
+                                    <li key={index} className="flex items-center p-2 bg-gray-100 rounded-lg">
+                                        <span className="text-sm text-gray-800 mr-2">{file.name}</span>
+                                        <FontAwesomeIcon
+                                            icon={faTimes}
+                                            className="cursor-pointer text-red-500 hover:text-red-700"
+                                            onClick={() => removeFile(index)}
+                                        />
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                    <div   className="flex items-center py-3 px-3 bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-lg shadow-md">
+                        {/* File Upload Section */}
+                        <label className="flex items-center cursor-pointer">
+                            <FontAwesomeIcon
+                                icon={faCamera}
+                                className="h-5 w-5 text-gray-600 mr-2"
+                            />
+                            <span className="text-md text-gray-700 py-2">Owner Signature Copy</span>
+                            <input
+                                type="file"
+                                id="fileInput"
+                                multiple
+                                {...register('files')}
+                                onChange={(e) => handleFileChange(e, setOwnerSignatureFiles)}
+                                hidden
+                            />
+                        </label>
+
+                        {/* Horizontal File List Section */}
+                        {ownerSignatureFiles.length > 0 && (
+                            <ul className="flex items-center gap-4 ml-4">
+                                {ownerSignatureFiles.map((file, index) => (
                                     <li key={index} className="flex items-center p-2 bg-gray-100 rounded-lg">
                                         <span className="text-sm text-gray-800 mr-2">{file.name}</span>
                                         <FontAwesomeIcon
