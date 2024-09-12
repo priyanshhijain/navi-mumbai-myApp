@@ -35,8 +35,13 @@ const LoginSignupPage: React.FC = () => {
       localStorage.setItem('username', data.username);
 
       // Redirect to dashboard
+<<<<<<< HEAD
       alert('Login success');
       router.push(`/dashboard`);
+=======
+      //alert('Login success');
+      router.push(`/dashboard?isLogin=true&username=${encodeURIComponent(data.username)}`);
+>>>>>>> 233e969ff5d1193339ab48f65daf7210af53d634
     } else {
       alert('Invalid username or password');
     }
@@ -46,7 +51,7 @@ const LoginSignupPage: React.FC = () => {
     <div className="relative flex justify-center items-center min-h-screen px-4 sm:px-6 lg:px-8">
       {/* Background Image with Full Width */}
       <div
-        className="absolute inset-0 w-full h-full bg-no-repeat bg-cover opacity-30"
+        className="absolute inset-0 w-full h-full bg-no-repeat bg-cover opacity-80"
         style={{ backgroundImage: `url('/police_img.png')`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: -1 }}
       ></div>
 
