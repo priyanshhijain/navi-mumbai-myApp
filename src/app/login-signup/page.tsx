@@ -35,16 +35,16 @@ const LoginSignupPage: React.FC = () => {
       localStorage.setItem('username', data.username);
 
       // Redirect to dashboard
-<<<<<<< HEAD
+
       alert('Login success');
       router.push(`/dashboard`);
-=======
+
       //alert('Login success');
       router.push(`/dashboard?isLogin=true&username=${encodeURIComponent(data.username)}`);
->>>>>>> 233e969ff5d1193339ab48f65daf7210af53d634
+
     } else {
       alert('Invalid username or password');
-    }
+    }s
   };
 
   return (
