@@ -16,17 +16,21 @@ type FormValues = {
 
 const LostOthers: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormValues>();
-    const [photoFiles, setPhotoFiles] = useState<File[]>([]);
-
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
-        alert("form is submitted")
-        console.log(data);
-        // Handle form submission logic here
-    };
-
-    // Remove the RC book copy
     const [photos, setPhotos] = useState<File[]>([]);
     const [rcBookCopies, setRcBookCopies] = useState<File[]>([]);
+
+    const onSubmit: SubmitHandler<FormValues> = (data) => {
+        // Prepare the form data
+        const formData = {
+            ...data,
+            photos: photos.map(file => file.name), // Capture only the file names or the files themselves
+            rcBookCopies: rcBookCopies.map(file => file.name), // Same here
+        };
+
+        alert("Form submitted");
+        console.log(formData);
+        // Handle form submission logic here
+    };
 
     // Handle multiple photo uploads for the vehicle photographs
     const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +58,6 @@ const LostOthers: React.FC = () => {
         setRcBookCopies((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
 
-
     return (
         <div className="mx-auto max-w-screen-lg px-4 md:px-8 lg:px-16">
             <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
@@ -68,7 +71,7 @@ const LostOthers: React.FC = () => {
                             {...register('make', { required: 'Make is required' })}
                             id="make"
                             type="text"
-                            className={`shadow appearance-none border w-full py-4  text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 ${errors.make ? 'border-red-500' : 'border-gray-300'}`}
+                            className={`shadow appearance-none border w-full py-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 ${errors.make ? 'border-red-500' : 'border-gray-300'}`}
                         />
                         {errors.make && (
                             <p className="text-red-500 text-sm">{errors.make.message}</p>
@@ -173,8 +176,6 @@ const LostOthers: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
-
 
                 {/* Submit Button */}
                 <div className="flex items-center justify-center mt-8 mb-4">

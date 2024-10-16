@@ -38,6 +38,7 @@ const ResidentialForm = () => {
     };
 
     const onSubmit = (data: Inputs) => {
+        alert("done")
         console.log("Form Data:", data);
         // fileInputIds.forEach((id, index) => {
         //     if (data[id as keyof Inputs]) {

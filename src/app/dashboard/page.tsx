@@ -27,19 +27,23 @@ const Dashboard: React.FC = () => {
     const handlefoundlost = () => handleNavigation('/foundlost');
     const handleTenantRegistrationClick = () => handleNavigation('/tenant-registration');
     const handleMobilePhoneClick = () => handleNavigation('/mobilelost');
+    const handlepccDomesticClick = ()=>handleNavigation("/pcc-domestic")
+    const handleReporting = ()=>handleNavigation('/Reporting')
+    const handlePccOverseasClick = ()=>handleNavigation("/pcc-overseas")
+    const handlepccLicencesClick = ()=>handleNavigation("/licenses")
 
     const items = [
         { id: 1, imgSrc: "/phone-lost.png", text: "Phone Lost", onClick: handleMobilePhoneClick, bgColor: "bg-teal-100" },
         { id: 2, imgSrc: "/tenant.png", text: "Tenant Intimation", onClick: handleTenantRegistrationClick, bgColor: "bg-blue-100" },
         { id: 3, imgSrc: "/occassion-permission.png", text: "Occasion Permission", onClick: handleTenantOccaionperClick, bgColor: "bg-pink-100" },
-        { id: 4, imgSrc: "/reporting.png", text: "Reporting", bgColor: "bg-yellow-100" },
+        { id: 4, imgSrc: "/reporting.png", text: "Reporting", onClick: handleReporting, bgColor: "bg-yellow-100" },
         { id: 5, imgSrc: "/lost-found.png", text: "Lost and Found", onClick: handlefoundlost, bgColor: "bg-teal-100" },
         { id: 6, imgSrc: "/cyber-security.png", text: "Cyber Awareness", bgColor: "bg-red-100" },
         { id: 7, imgSrc: "/link.png", text: "Quick Links", bgColor: "bg-purple-200" },
         { id: 8, imgSrc: "/pnc-info.png", text: "Phc Contact Info", onClick: handlephcContactClick, bgColor: "bg-rose-100" },
-        { id: 9, imgSrc: "/pcc-overseas.png", text: "Pcc Overseas Employment", bgColor: "bg-emerald-100" },
-        { id: 10, imgSrc: "/pcc-domestic.png", text: "Pcc Domestic (General)", bgColor: "bg-sky-100" },
-    ];
+        { id: 9, imgSrc: "/pcc-overseas.png", text: "Pcc Overseas Employment", onClick: handlePccOverseasClick ,bgColor: "bg-emerald-100" },
+        { id: 10, imgSrc: "/pcc-domestic.png", text: "Pcc Domestic (General)",onClick: handlepccDomesticClick, bgColor: "bg-sky-100" },
+        { id: 10, imgSrc: "/licences.jpg", text: "Licences",onClick: handlepccLicencesClick, bgColor: "bg-sky-100" },];
 
     return (
         <div className="flex flex-col min-h-screen bg-slate-100">

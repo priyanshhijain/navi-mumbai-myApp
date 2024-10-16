@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/frontpage"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/frontpage", "src/app/licenses/arms-licence/arm-license/for-individual/page.tsz", "src/app/licenses/arms-licence/arm-licence-application/innerDropdown"],
   "exclude": ["node_modules"]
 }

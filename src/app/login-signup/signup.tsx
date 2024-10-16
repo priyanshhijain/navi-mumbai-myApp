@@ -1,6 +1,9 @@
 "use client";
 import React from 'react';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"; // Eye Icon Imports
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // FontAwesome Import
+import { useState } from 'react';
 
 type Inputs = {
     username: string;
@@ -15,13 +18,24 @@ type Inputs = {
 
 const SignUp = () => {
     const { register, handleSubmit, control, formState: { errors }, watch } = useForm<Inputs>();
+    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         console.log('Signup Data:', data);
         alert('Signup functionality will be implemented');
     };
 
+    const togglePasswordVisibility = () => {
+        setShowPassword((prevShowPassword) => !prevShowPassword);
+    };
+
     console.log(watch("username")); // watch input value by passing the name of it
+    const locations = [
+        "APMC", "CBD", "Kharghar", "Kopar Khairane", "Kalamboli", "Khandeshwar",
+        // "Kamothe", "Mora Sagari", "Nhava Seva", "Nerul", "NRI", "Panvel City",
+        // "Panvel Taluka", "Rabale", "Rabale MIDC", "Sanpada", "Turbhe MIDC",
+        // "Taloja", "Uran", "Vashi"
+    ];
 
     return (
         <div className="p-4 sm:p-6 md:p-8 lg:p-10 w-full max-w-full md:max-w-2xl lg:max-w-4xl xl:max-w-4xl mx-auto">
@@ -31,7 +45,7 @@ const SignUp = () => {
                         htmlFor="username"
                         className="block text-md font-bold leading-6 text-gray-900"
                     >
-                       Username
+                        Username
                     </label>
                     <div className="mt-2">
                         <input
@@ -51,20 +65,30 @@ const SignUp = () => {
                 </div>
 
                 <div className="relative mb-4">
-                    <label
-                        htmlFor="password"
-                        className="block text-md font-bold leading-6 text-gray-900"
-                    >
-                        Password
-                    </label>
-                    <div className="mt-2">
-                        <input
-                            id="password"
-                            type="password"
-                            className={`shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.password ? 'border-blue-500' : 'focus:border-blue-500'}`}
-                            {...register('password', { required: 'Password is required', minLength: { value: 8, message: 'Password must be at least 8 characters long' } })}
-                        />
-                        {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+                    <div className="relative mb-4 mt-6">
+                        <label htmlFor="password" className="block text-md font-bold leading-6 text-gray-900">
+                            Password
+                        </label>
+                        <div className="mt-2 relative">
+                            <input
+                                id="password"
+                                type={showPassword ? "text" : "password"} // Toggle input type based on showPassword state
+                                className={`shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.password ? "border-red-500" : "focus:border-blue-500"}`}
+                                {...register("password", {
+                                    required: "Password is required",
+                                    minLength: { value: 8, message: "Password must be at least 8 characters long" }
+                                })}
+                            />
+                            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+
+                            {/* Eye Icon for toggling password visibility */}
+                            <div
+                                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                onClick={togglePasswordVisibility}
+                            >
+                                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -73,7 +97,7 @@ const SignUp = () => {
                         htmlFor="mobile"
                         className="block text-md font-bold leading-6 text-gray-900"
                     >
-                      Mobile No
+                        Mobile No
                     </label>
                     <div className="mt-2">
                         <input
@@ -109,25 +133,40 @@ const SignUp = () => {
                     </div>
                 </div>
 
-                <div className="relative mb-4">
-                    <label
-                        htmlFor="location"
-                        className="block text-md font-bold leading-6 text-gray-900"
-                    >
-                        Location
-                    </label>
-                    <div className="mt-2">
-                        <input
-                            id="location"
-                            type="text"
-                            className={`shadow appearance-none border w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.location ? 'border-blue-500' : 'focus:border-blue-500'}`}
-                            {...register('location', {
-                                required: 'Location is required'
-                            })}
-                        />
-                        {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>}
-                    </div>
-                </div>
+
+                <div className="relative mb-4 custom-dropdown-container">
+    <label
+      htmlFor="location"
+      className="block text-md font-bold leading-6 text-gray-900"
+    >
+      Location
+    </label>
+    <div className="mt-2">
+      <Controller
+        name="location"
+        control={control}
+        defaultValue={locations[0]}  // Set default value to the first location
+        render={({ field }) => (
+          <div className="custom-dropdown">
+            <select
+              id="location"
+              className="shadow appearance-none border w-full py-4 pl-3 pr-10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              {...field}
+            >
+              {locations.map((location, index) => (
+                <option key={index} value={location}>
+                  {location}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+      />
+      {errors.location && (
+        <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>
+      )}
+    </div>
+  </div>
 
                 <div className="flex items-center mb-4">
                     <input
