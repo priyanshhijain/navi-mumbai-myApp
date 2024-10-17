@@ -8,11 +8,13 @@ import CommonCom from "./common";
 import Header2 from "@/components/Header2";
 import MissingPerson from "./MissingPerson";
 import AccidentForm from "./AccidentForm"; // Import AccidentForm
+import Image from 'next/image';
+
 
 const ReportingInfo = () => {
     const router = useRouter();
-    const [category, setCategory] = useState(""); 
-    const [subCategory, setSubCategory] = useState(""); 
+    const [category, setCategory] = useState("");
+    const [subCategory, setSubCategory] = useState("");
     const [isCrimeSelected, setIsCrimeSelected] = useState(false);
     const [isMissingPersonSelected, setIsMissingPersonSelected] = useState(false);
     const [isAccidentSelected, setIsAccidentSelected] = useState(false); // New state for Accident Reporting
@@ -52,11 +54,15 @@ const ReportingInfo = () => {
             <div className="mx-auto max-w-screen-lg px-4 md:px-0">
                 <div className="info flex items-center justify-between h-12 bg-gray-100 rounded-3xl mt-8">
                     <div className="flex items-center">
-                        <img
-                            src="/reporting-img.png"
-                            alt="logo"
-                            className="h-10 w-[43px] rounded-l-full"
-                        />
+                    <Image
+    src="/reporting.png" // Image source
+    alt="logo" // Alt text for accessibility
+    width={24} // Decreased width
+    height={24} // Decreased height
+    className="rounded-l-full" // Tailwind CSS class for rounded corners
+/>
+
+
                         <p className="text-lg text-purple-800 font-bold pl-2">Reporting</p>
                     </div>
                     <FontAwesomeIcon

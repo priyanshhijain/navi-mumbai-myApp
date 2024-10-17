@@ -256,7 +256,7 @@ const CommonCom = ({ title }: { title: string }) => {
         <>
           <div className="relative mb-4">
             <label htmlFor="victimName" className="block text-md font-bold leading-6 text-gray-900">
-              Victim's Name
+              Victim&apos;s Name
             </label>
             <div className="mt-2">
               <input
@@ -271,7 +271,7 @@ const CommonCom = ({ title }: { title: string }) => {
 
           <div className="relative mb-4">
             <label htmlFor="victimAge" className="block text-md font-bold leading-6 text-gray-900">
-              Victim's Age
+              Victim&apos;s Age
             </label>
             <div className="mt-2">
               <input
@@ -286,7 +286,7 @@ const CommonCom = ({ title }: { title: string }) => {
 
           <div className="relative mb-4">
             <label htmlFor="victimGender" className="block text-md font-bold leading-6 text-gray-900">
-              Victim's Gender
+              Victim&apos;s Gender
             </label>
             <div className="mt-2">
               <select

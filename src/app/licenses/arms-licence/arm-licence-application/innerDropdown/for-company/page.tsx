@@ -7,7 +7,7 @@ import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import MobileMenu from "@/components/MobileMenu";
 import Header2 from "@/components/Header2";
 import Attachments from "./Attachments";
-
+import Image from "next/image";
 const ForCompany = () => {
     const router = useRouter();
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
@@ -29,11 +29,13 @@ const ForCompany = () => {
             <div className="mx-auto max-w-screen-lg px-4 md:px-0">
                 <div className="info flex items-center justify-between h-12 w-full bg-gray-100 rounded-3xl mt-8">
                     <div className="flex items-center">
-                        <img
-                            src="/licences.jpg"
-                            alt="logo"
-                            className="h-10 w-[43px] rounded-l-full"
-                        />
+                    <Image
+    src="/licences.jpg"
+    alt="logo"
+    width={43} // Specify the original or approximate width
+    height={40} // Specify the original or approximate height
+    className="h-10 w-[43px] rounded-l-full"
+/>
                         <p className="text-lg text-purple-800 font-bold pl-2">Licenses</p>
                     </div>
                     <FontAwesomeIcon
@@ -506,7 +508,7 @@ const ForCompany = () => {
                     {/* Licence Suspension/Revocation */}
                     <div className="mt-6">
                         <label className="block font-bold">
-                            Whether the applicant's licence was ever suspended, cancelled, or revoked
+                            Whether the applicant&apos;s licence was ever suspended, cancelled, or revoked
                         </label>
                         <div className="flex items-center mt-2">
                             <input

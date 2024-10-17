@@ -6,6 +6,8 @@ import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { faUser, faHouse, faShuffle, faBars } from '@fortawesome/free-solid-svg-icons';
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { BellIcon, XMarkIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -29,7 +31,13 @@ const Header: React.FC = () => {
       <div className="mx-auto max-w-8xl px-4 sm:px-6">
         <div className="flex h-16 justify-between items-center">
           <div className="flex items-center">
-            <img src="/logo.jpeg" alt="Police Logo" className="w-12 h-12" />
+          <Image
+    src="/logo.jpeg"
+    alt="Police Logo"
+    width={48} // Specify the image's original width
+    height={48} // Specify the image's original height
+    className="w-12 h-12"
+/>
             {isLogin ? (
               <div>
                 <h1 className="font-medium text-white text-sm sm:text-base pl-2">Welcome</h1>
@@ -42,7 +50,7 @@ const Header: React.FC = () => {
               </div>
             )}
           </div>
-         
+
           <div className="hidden sm:flex items-center space-x-8">
             <a href="/dashboard" className="text-base font-medium text-white hover:text-gray-300">
               Dashboard
@@ -86,11 +94,13 @@ const Header: React.FC = () => {
               <div>
                 <MenuButton className="relative flex rounded-full bg-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                   <span className="sr-only">Open user menu</span>
-                  <img
-                    alt=""
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    className="h-8 w-8 rounded-full"
-                  />
+                  <Image
+    alt=""
+    src="/header.avif"
+    width={256} // Image's actual width
+    height={256} // Image's actual height
+    className="h-8 w-8 rounded-full"
+/>
                 </MenuButton>
               </div>
               <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
@@ -152,10 +162,12 @@ const Header: React.FC = () => {
         <div className="border-t border-gray-700 pb-3 pt-4">
           <div className="flex items-center px-4">
             <div className="flex-shrink-0">
-              <img
+              <Image
                 alt=""
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                className="h-10 w-10 rounded-full"
+                src="/header.avif"
+                width={256} // Image's actual width
+                height={256} // Image's actual height
+                className="h-8 w-8 rounded-full"
               />
             </div>
 

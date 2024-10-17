@@ -9,6 +9,8 @@ import Header2 from '@/components/Header2';
 import EducationForm from './EducationalForm';
 import AdoptionForm from './AdoptionForm';
 import RentalForm from './RentalsForm';
+import Image from 'next/image';
+
 
 const PccDomesticinfo = () => {
     const router = useRouter();
@@ -37,11 +39,13 @@ const PccDomesticinfo = () => {
             <div className="mx-auto max-w-screen-lg px-4 md:px-0">
                 <div className="info flex items-center justify-between h-12 w-semifull bg-gray-100 rounded-3xl mt-8">
                     <div className="flex items-center">
-                        <img
-                            src="/pcc-domestic.png"
-                            alt="logo"
-                            className="h-10 w-[43px] rounded-l-full"
-                        />
+                    <Image
+    src="/pcc-domestic.png"
+    alt="logo"
+    width={43} // Set the actual width of the image
+    height={40} // Set the actual height of the image
+    className="h-10 w-[43px] rounded-l-full"
+/>
                         <p className="text-lg text-purple-800 font-bold pl-2">Pcc Domestic</p>
                     </div>
                     <FontAwesomeIcon

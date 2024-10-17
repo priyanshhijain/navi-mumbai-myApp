@@ -78,7 +78,7 @@ const MissingPerson: React.FC = () => {
 
         {/* Missing Person's Full Name */}
         <div>
-          <label className="block font-semibold">Missing Person's Full Name</label>
+          <label className="block font-semibold">Missing Person&apos;s Full Name</label>
           <input
             {...register('missingPersonName', { required: "Missing person's name is required" })}
             className="shadow appearance-none border w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"
@@ -89,7 +89,7 @@ const MissingPerson: React.FC = () => {
 
         {/* Missing Person's Age */}
         <div>
-          <label className="block font-semibold">Missing Person's Age</label>
+          <label className="block font-semibold">Missing Person&apos;s Age</label>
           <input
             {...register('missingPersonAge', { required: "Missing person's age is required", valueAsNumber: true })}
             type="number"
@@ -101,7 +101,7 @@ const MissingPerson: React.FC = () => {
 
         {/* Missing Person's Gender */}
         <div>
-          <label className="block font-semibold">Missing Person's Gender</label>
+          <label className="block font-semibold">Missing Person&apos;s Gender</label>
           <select
             {...register('missingPersonGender', { required: "Gender is required" })}
             className="shadow appearance-none border w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500"

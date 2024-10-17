@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Header2 from "@/components/Header2";
 import { faAngleDown, faAngleLeft, faLocationDot, faUser, faShuffle, faBars, faHouse } from '@fortawesome/free-solid-svg-icons';
 import PCCForm from "./pccOverseasForm";
+import Image from 'next/image';
 export default function PCCOverseas() {
   const router = useRouter();
   const handleNavigation = () => {
@@ -18,11 +19,13 @@ export default function PCCOverseas() {
       <div className="mx-auto max-w-screen-lg px-4 md:px-0">
         <div className="info flex items-center justify-between h-12 w-full bg-gray-100 rounded-3xl mt-8">
           <div className="flex items-center">
-            <img
-              src="/pcc-overseas.png"  
-              alt="PCC Overseas"
-              className="h-8 w-[35px] rounded-l-full"
-            />
+          <Image
+    src="/pcc-overseas.png"
+    alt="PCC Overseas"
+    width={35} // Set the actual width of the image
+    height={32} // Set the actual height of the image
+    className="h-8 w-[35px] rounded-l-full"
+/>
             <p className="text-lg text-purple-800 font-bold pl-2">PCC Overseas</p> {/* Update the text */}
           </div>
           <FontAwesomeIcon

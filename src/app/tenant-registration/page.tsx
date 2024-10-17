@@ -7,6 +7,7 @@ import ResidentialForm from './ResidentialForm';
 import CommercialForm from './CommercialForm';
 import MobileMenu from '@/components/MobileMenu';
 import Header2 from '@/components/Header2';
+import Image from 'next/image';
 
 
 
@@ -27,11 +28,13 @@ const InfoPanel = () => {
             <div className="mx-auto max-w-screen-lg px-4 md:px-0">
                 <div className="info flex items-center justify-between h-12 w-semifull bg-gray-100 rounded-3xl mt-8">
                     <div className="flex items-center">
-                        <img
-                            src="https://cdn-icons-png.freepik.com/256/7679/7679843.png?semt=ais_hybrid"
-                            alt="logo"
-                            className="h-10 w-[43px] rounded-l-full"
-                        />
+                    <Image
+    src="/tenant.png"
+    alt="logo"
+    width={43}  // Specify the width of the image
+    height={40} // Specify the height of the image (adjusted for aspect ratio)
+    className="rounded-l-full" // Optional: Add rounded styling if desired
+/>
                         <p className="text-lg text-purple-800 font-bold pl-2">Tenant Registration</p>
                     </div>
                     <FontAwesomeIcon

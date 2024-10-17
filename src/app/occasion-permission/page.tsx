@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Header2 from "@/components/Header2";
 import { faAngleDown, faAngleLeft, faLocationDot, faUser, faShuffle, faBars, faHouse } from '@fortawesome/free-solid-svg-icons';
-
+import Image from "next/image";
 export default function Home() {
   const router = useRouter();
   const handleNavigation = () => {
@@ -19,11 +19,13 @@ export default function Home() {
       <div className="mx-auto max-w-screen-lg px-4 md:px-0">
         <div className="info flex items-center justify-between h-12 w-full bg-gray-100 rounded-3xl mt-8">
           <div className="flex items-center">
-            <img
-              src="https://cdn-icons-png.freepik.com/256/14380/14380643.png?semt=ais_hybrid"
-              alt="logo"
-              className="h-10 w-[43px] rounded-l-full"
-            />
+          <Image
+    src="/occassion-permission.png"
+    alt="logo"
+    width={43} // Replace with the actual width of the image
+    height={40} // Replace with the actual height of the image
+    className="h-10 w-[43px] rounded-l-full"
+/>
             <p className="text-lg text-purple-800 font-bold pl-2">Occasion Permission</p>
           </div>
           <FontAwesomeIcon

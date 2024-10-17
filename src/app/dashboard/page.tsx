@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import MobileMenu from '@/components/MobileMenu';
 import Header from '@/components/Header';
+import Image from 'next/image';
 
 const Dashboard: React.FC = () => {
     const router = useRouter();
@@ -58,11 +59,13 @@ const Dashboard: React.FC = () => {
                         onClick={item.onClick || (() => console.log(`${item.text} clicked but no action assigned.`))}
                     >
                         <div className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${item.bgColor}`}>
-                            <img
-                                src={item.imgSrc}
-                                alt="Icon"
-                                className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
-                            />
+                        <Image
+    src={item.imgSrc}
+    alt="Icon"
+    width={32} // Specify the original or approximate width of the image
+    height={32} // Specify the original or approximate height of the image
+    className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+/>
                         </div>
                         <div className="ml-3 sm:ml-4 flex flex-col justify-center">
                             <span className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800">

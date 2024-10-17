@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import Header2 from '@/components/Header2';
 import MobileMenu from '@/components/MobileMenu';
+import Image from 'next/image';
 
 type FormData = {
   username: string;
@@ -34,7 +35,16 @@ const ProfilePage = () => {
           {/* Left Side: Large Profile Image */}
           <div className="w-full lg:w-1/3 flex flex-col items-center justify-center bg-gray-200 p-8">
             <div className="w-48 h-48 rounded-full overflow-hidden bg-gray-300 mb-4 flex items-center justify-center">
-              <img src="/profilepic.jpg" alt="Profile" className="w-full h-full object-cover" />
+            <div className="relative w-32 h-32"> {/* Set a fixed width and height for the image container */}
+    <Image
+        src="/profilepic.jpg"
+        alt="Profile"
+        width={128} // Set the width of the image
+        height={128} // Set the height of the image
+        className="rounded-full" // Optional: Add rounded styling if you want a circular image
+    />
+</div>
+
             </div>
             <div className="lg:hidden text-center">
               <button className="mt-2 text-blue-500 hover:text-blue-700">Change Photo</button>
@@ -46,7 +56,13 @@ const ProfilePage = () => {
             {/* Small Profile Image and Change Photo Button */}
             <div className="hidden lg:flex items-center mb-8">
               <div className="relative rounded-full overflow-hidden w-20 h-20 mr-4 flex items-center justify-center bg-gray-200">
-                <img src="/profilepic.jpg" alt="Profile" className="w-full h-full object-cover" />
+              <Image
+    src="/profilepic.jpg" // Image source
+    alt="Profile" // Alt text for accessibility
+    width={500} // Set an appropriate width
+    height={500} // Set an appropriate height
+    className="object-cover w-full h-full" // Tailwind CSS classes for styling
+/>
                 <div className="absolute bottom-0 right-0 flex items-center justify-center">
                   <div className="w-8 h-8 bg-yellow-300 rounded-full flex items-center justify-center">
                     <FontAwesomeIcon icon={faCamera} className="text-gray-700 w-4 h-4 cursor-pointer" />
